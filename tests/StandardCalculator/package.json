@@ -1,0 +1,15 @@
+{
+    "name": "StandardCalculator",
+    "version": "1.5.0",
+    "type": "Unmanaged",
+    "binaries": [
+        {
+            "path": "StandardCalculator_d.dll",
+            "os": "win",
+            "arch": "x86"
+        }
+    ],
+    "description": "Little module that contains the basic calculator functions",
+    "author": "Zille Marco",
+    "license": "MIT"
+}

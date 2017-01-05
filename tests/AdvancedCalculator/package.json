@@ -1,0 +1,18 @@
+{
+    "name": "AdvancedCalculator",
+    "version": "1.0.0",
+    "type": "Unmanaged",
+    "binaries": [
+        {
+            "path": "AdvancedCalculator_d.dll",
+            "os": "win",
+            "arch": "x86"
+        }
+    ],
+    "dependencies": {
+        "StandardCalculator": "1.1.0"
+    },
+    "description": "Little module that contains the advanced calculator functions",
+    "author": "Zille Marco",
+    "license": "MIT"
+}

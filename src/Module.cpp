@@ -215,6 +215,12 @@ extern _C_EXPORT_ CppPlug_API void InitializeModuleBinaryInfo(ModuleBinaryInfo& 
 
 extern _C_EXPORT_ CppPlug_API void DestroyModuleBinaryInfo(ModuleBinaryInfo& info)
 {
+	if (info._entryPointNamespace != nullptr)
+		free((void*)info._entryPointNamespace);
+
+	if (info._entryPointClass != nullptr)
+		free((void*)info._entryPointClass);
+
 	if (info._path != nullptr)
 		free((void*)info._path);
 
@@ -247,6 +253,8 @@ extern _C_EXPORT_ CppPlug_API void CopyModuleBinaryInfo(ModuleBinaryInfo& dst, c
 	SetModuleBinaryInfoOperatingSystem(dst, src._os);
 	SetModuleBinaryInfoArchType(dst, src._archType);
 	SetModuleBinaryInfoAutoCompile(dst, src._autoCompile);
+	SetModuleBinaryInfoEntryPointNamespace(dst, src._entryPointNamespace);
+	SetModuleBinaryInfoEntryPointClass(dst, src._entryPointClass);
 	SetModuleBinaryInfoCompileCommand(dst, src._compileCommand);
 	SetModuleBinaryInfoSourceFiles(dst, src._sourceFiles);
 	SetModuleBinaryInfoCompiler(dst, src._compiler);
@@ -282,6 +290,34 @@ extern _C_EXPORT_ CppPlug_API void SetModuleBinaryInfoArchType(ModuleBinaryInfo&
 extern _C_EXPORT_ CppPlug_API void SetModuleBinaryInfoAutoCompile(ModuleBinaryInfo& info, bool value)
 {
 	info._autoCompile = value;
+}
+
+extern _C_EXPORT_ CppPlug_API void SetModuleBinaryInfoEntryPointNamespace(ModuleBinaryInfo& info, const char* value)
+{
+	if (value == nullptr)
+		return;
+
+	if (info._entryPointNamespace != nullptr)
+		free((void*)info._entryPointNamespace);
+
+	int len = strlen(value) + 1;
+	info._entryPointNamespace = (char*)malloc(len);
+
+	strcpy(info._entryPointNamespace, value);
+}
+
+extern _C_EXPORT_ CppPlug_API void SetModuleBinaryInfoEntryPointClass(ModuleBinaryInfo& info, const char* value)
+{
+	if (value == nullptr)
+		return;
+
+	if (info._entryPointClass != nullptr)
+		free((void*)info._entryPointClass);
+
+	int len = strlen(value) + 1;
+	info._entryPointClass = (char*)malloc(len);
+
+	strcpy(info._entryPointClass, value);
 }
 
 extern _C_EXPORT_ CppPlug_API void SetModuleBinaryInfoCompileCommand(ModuleBinaryInfo& info, const char* value)

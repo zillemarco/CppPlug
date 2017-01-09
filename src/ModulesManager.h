@@ -15,6 +15,10 @@ class CppPlug_API ModulesManager
 	friend Module;
 	friend class UnmanagedModule;
 
+	#ifdef SUPPORT_MANAGED
+		friend class ManagedModule;
+	#endif	
+
 	typedef std::map<std::string, std::shared_ptr<Module> > ModulesMap;
 	
 private:

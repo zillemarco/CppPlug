@@ -43,7 +43,10 @@ if(WIN32)
 endif()
 
 if(MANAGED_PLUGINS_SUPPORT)
+
+set(MONO_RUNTIME_DLL "${MONO_ROOT}/bin/monosgen-2.0.dll")
 target_link_libraries(${PROJECT_NAME} "${MONO_ROOT}/lib/monosgen-2.0.lib")
+
 endif()
 
 # Set the output path and properties
@@ -60,6 +63,10 @@ set_target_properties(${PROJECT_NAME} PROPERTIES RELWITHDEBINFO_POSTFIX "${CppPl
 
 # Include version information in the output
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${CppPlug_VERSION})
+
+if(MANAGED_PLUGINS_SUPPORT)
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${MONO_RUNTIME_DLL}" "${CMAKE_BINARY_DIR}/Build/CppPlug/bin")
+endif()
 
 if (WIN32)
     # The CppPlug DLL needs a special compile-time macro and import library name
@@ -85,4 +92,16 @@ if(BUILD_TESTS)
     add_subdirectory(tests/Calculator)
     add_subdirectory(tests/StandardCalculator)
     add_subdirectory(tests/AdvancedCalculator)
+endif()
+
+if(CREATE_INSTALL)
+    
+    if(MANAGED_PLUGINS_SUPPORT)
+        install(FILES "${MONO_RUNTIME_DLL}" DESTINATION "${CMAKE_INSTALL_PREFIX}/bin")
+    endif()
+
+    install(DIRECTORY "${PROJECT_SOURCE_DIR}/src/" DESTINATION "include" PATTERN "*.cpp" EXCLUDE)
+    install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION "bin/"
+									LIBRARY DESTINATION "bin/"
+									ARCHIVE DESTINATION "lib/")
 endif()

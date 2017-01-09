@@ -186,6 +186,8 @@ void ModulesManager::ReadModuleJSON(const Path& path, ModuleInfo& moduleInfos)
 				json::const_iterator binaryOperatingSystemIt = binaryInfoJSON.find("os");
 				json::const_iterator binaryArchIt = binaryInfoJSON.find("arch");
 				json::const_iterator binaryAutoCompileIt = binaryInfoJSON.find("auto_compile");
+				json::const_iterator binaryEntryPointNamespaceIt = binaryInfoJSON.find("compile_command");
+				json::const_iterator binaryEntryPointClassIt = binaryInfoJSON.find("compile_command");
 				json::const_iterator binaryCompileCommandIt = binaryInfoJSON.find("compile_command");
 				json::const_iterator binarySourceFilesIt = binaryInfoJSON.find("source_files");
 				json::const_iterator binaryCompilerIt = binaryInfoJSON.find("compiler");
@@ -224,6 +226,12 @@ void ModulesManager::ReadModuleJSON(const Path& path, ModuleInfo& moduleInfos)
 
 				if(binaryAutoCompileIt != binaryInfoJSON.end() && binaryAutoCompileIt.value().is_boolean())
 					SetModuleBinaryInfoAutoCompile(binariesInfo[i], binaryAutoCompileIt.value().get<bool>());
+
+				if (binaryEntryPointNamespaceIt != binaryInfoJSON.end() && binaryEntryPointNamespaceIt.value().is_string())
+					SetModuleBinaryInfoEntryPointNamespace(binariesInfo[i], binaryEntryPointNamespaceIt.value().get<std::string>().c_str());
+
+				if (binaryEntryPointClassIt != binaryInfoJSON.end() && binaryEntryPointClassIt.value().is_string())
+					SetModuleBinaryInfoEntryPointClass(binariesInfo[i], binaryEntryPointClassIt.value().get<std::string>().c_str());
 
 				if (binaryCompileCommandIt != binaryInfoJSON.end() && binaryCompileCommandIt.value().is_string())
 					SetModuleBinaryInfoCompileCommand(binariesInfo[i], binaryCompileCommandIt.value().get<std::string>().c_str());

@@ -12,11 +12,6 @@ UnmanagedModule::UnmanagedModule(const ModuleInfo& moduleInfo, const std::string
 	, _unloadModuleFunc(nullptr)
 	, _reloadModuleFunc(nullptr)
 	, _moduleBinary(nullptr)
-	, _givenServices(new GivenServicesMap())
-	, _registeredPluginsMap(new RegisteredPluginsMap())
-	, _registeredPluginsVec(new RegisteredPluginsVector())
-	, _createdPlugins(new CreatedPluginsVector())
-	, _pluginsDataToRestoreAfterReload(new PluginDataToRestoreAfterReloadVector())
 {
 	_infos._reserved_createPluginFunc = CreatePlugin;
 	_infos._reserved_destroyPluginFunc = DestroyPlugin;
@@ -35,12 +30,6 @@ UnmanagedModule::~UnmanagedModule()
 	
 	for (auto& el : *_pluginsDataToRestoreAfterReload)
 		delete el;
-
-	delete _pluginsDataToRestoreAfterReload;
-	delete _givenServices;
-	delete _registeredPluginsMap;
-	delete _registeredPluginsVec;
-	delete _createdPlugins;
 }
 
 bool UnmanagedModule::Load(std::string& error, bool reloadPluginsFromStoredData)

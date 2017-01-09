@@ -170,16 +170,18 @@ struct ModuleDependencyInfo
 
 struct ModuleBinaryInfo
 {
-	char* _path;			/** Path to the binary. If the binary can be auto compiled than this must contain the path to the compiled binary. Can be relative (starting from where the module's package.json is) */
-	ArchType _archType;		/** The architecture supported by the binary */
-	OperatingSystem _os;	/** The operating system supported by the binary */
-	bool _autoCompile;		/** If true the binary can be auto compiled with the additional informations */
-	char* _compileCommand;	/** This is the command executed to compile the binary (overrides all the other parameters like _sourceFiles, _compiler, _compilerArgs, _linker, _linkerArgs) */
-	char* _sourceFiles;		/** If _compileCommand isn't specified and _autoCompile is true, this must contain the list of files to be compiled separated by a semicolon */
-	char* _compiler;		/** If _compileCommand isn't specified and _autoCompile is true, this must contain the name of the compiler to be used to compile the binary */
-	char* _compilerArgs;	/** If _compileCommand isn't specified and _autoCompile is true, this can contain the additional parameters to give to the compiler specified to compile the binary */
-	char* _linker;			/** If _compileCommand isn't specified and _autoCompile is true, this can contain the name of the linker to be used to link the binary */
-	char* _linkerArgs;		/** If _compileCommand isn't specified and _autoCompile is true, this can contain the additional parameters to give to the linker specified to link the binary */
+	char* _path;				/** Path to the binary. If the binary can be auto compiled than this must contain the path to the compiled binary. Can be relative (starting from where the module's package.json is) */
+	ArchType _archType;			/** The architecture supported by the binary */
+	OperatingSystem _os;		/** The operating system supported by the binary */
+	bool _autoCompile;			/** If true the binary can be auto compiled with the additional informations */
+	char* _entryPointNamespace;	/** Valid only for managed modules: namespace that contains the class that contains the module's management methods (see _entryPointClass) */
+	char* _entryPointClass;		/** Valid only for managed modules: name of the class that contains the module's management methods (LoadModule, ReloadModule, UnloadModule) */
+	char* _compileCommand;		/** This is the command executed to compile the binary (overrides all the other parameters like _sourceFiles, _compiler, _compilerArgs, _linker, _linkerArgs) */
+	char* _sourceFiles;			/** If _compileCommand isn't specified and _autoCompile is true, this must contain the list of files to be compiled separated by a semicolon */
+	char* _compiler;			/** If _compileCommand isn't specified and _autoCompile is true, this must contain the name of the compiler to be used to compile the binary */
+	char* _compilerArgs;		/** If _compileCommand isn't specified and _autoCompile is true, this can contain the additional parameters to give to the compiler specified to compile the binary */
+	char* _linker;				/** If _compileCommand isn't specified and _autoCompile is true, this can contain the name of the linker to be used to link the binary */
+	char* _linkerArgs;			/** If _compileCommand isn't specified and _autoCompile is true, this can contain the additional parameters to give to the linker specified to link the binary */
 };
 
 struct ModuleInfo
@@ -234,6 +236,8 @@ extern _C_EXPORT_ CppPlug_API void SetModuleBinaryInfoPath(ModuleBinaryInfo& inf
 extern _C_EXPORT_ CppPlug_API void SetModuleBinaryInfoOperatingSystem(ModuleBinaryInfo& info, OperatingSystem value);
 extern _C_EXPORT_ CppPlug_API void SetModuleBinaryInfoArchType(ModuleBinaryInfo& info, ArchType value);
 extern _C_EXPORT_ CppPlug_API void SetModuleBinaryInfoAutoCompile(ModuleBinaryInfo& info, bool value);
+extern _C_EXPORT_ CppPlug_API void SetModuleBinaryInfoEntryPointNamespace(ModuleBinaryInfo& info, const char* value);
+extern _C_EXPORT_ CppPlug_API void SetModuleBinaryInfoEntryPointClass(ModuleBinaryInfo& info, const char* value);
 extern _C_EXPORT_ CppPlug_API void SetModuleBinaryInfoCompileCommand(ModuleBinaryInfo& info, const char* value);
 extern _C_EXPORT_ CppPlug_API void SetModuleBinaryInfoSourceFiles(ModuleBinaryInfo& info, const char* value);
 extern _C_EXPORT_ CppPlug_API void SetModuleBinaryInfoCompiler(ModuleBinaryInfo& info, const char* value);

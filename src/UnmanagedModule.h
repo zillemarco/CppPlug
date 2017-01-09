@@ -12,12 +12,6 @@ struct PluginDataToRestoreAfterReload;
 
 class CppPlug_API UnmanagedModule : public Module
 {
-	typedef std::map<std::string, std::vector<PluginInfo*> > GivenServicesMap;
-	typedef std::map<std::string, PluginInfo*> RegisteredPluginsMap;
-	typedef std::vector<PluginInfo*> RegisteredPluginsVector;
-	typedef std::vector<CreatedPlugin*> CreatedPluginsVector;
-	typedef std::vector<PluginDataToRestoreAfterReload*> PluginDataToRestoreAfterReloadVector;
-
 public:
 	UnmanagedModule(const ModuleInfo& moduleInfo, const std::string& basePath);
 

@@ -7,22 +7,43 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <map>
 #include <functional>
 
 class Plugin;
 class ModulesManager;
 class UnmanagedModule;
 
+#ifdef SUPPORT_MANAGED
+	class ManagedModule;
+#endif
+
 class CppPlug_API Module
 {
 	friend ModulesManager;
 	friend UnmanagedModule;
+
+	#ifdef SUPPORT_MANAGED
+		friend ManagedModule;
+	#endif
+
+public:
+	typedef std::map<std::string, std::vector<PluginInfo*> > GivenServicesMap;
+	typedef std::map<std::string, PluginInfo*> RegisteredPluginsMap;
+	typedef std::vector<PluginInfo*> RegisteredPluginsVector;
+	typedef std::vector<CreatedPlugin*> CreatedPluginsVector;
+	typedef std::vector<PluginDataToRestoreAfterReload*> PluginDataToRestoreAfterReloadVector;
 
 protected:
 	Module(const ModuleInfo& moduleInfo, const std::string& basePath)
 		: _manager(nullptr)
 		, _basePath(basePath)
 		, _binaryInfo(nullptr)
+		, _givenServices(new GivenServicesMap())
+		, _registeredPluginsMap(new RegisteredPluginsMap())
+		, _registeredPluginsVec(new RegisteredPluginsVector())
+		, _createdPlugins(new CreatedPluginsVector())
+		, _pluginsDataToRestoreAfterReload(new PluginDataToRestoreAfterReloadVector())
 	{
 		InitializeModuleInfo(_infos);
 		CopyModuleInfo(_infos, moduleInfo);
@@ -34,6 +55,12 @@ public:
 	virtual ~Module()
 	{
 		DestroyModuleInfo(_infos);
+
+		delete _pluginsDataToRestoreAfterReload;
+		delete _givenServices;
+		delete _registeredPluginsMap;
+		delete _registeredPluginsVec;
+		delete _createdPlugins;
 	}
 
 protected:
@@ -86,6 +113,13 @@ protected:
 
 	std::vector<ModuleInfo*> _dependencies;	/** List of all the module's dependencies */
 	std::vector<Module*> _dependantModules;	/** List of the modules that depend on this one */
+	
+	GivenServicesMap* _givenServices;				/** Map that contains all the services given from the module and for each service there is the list of plugins that give that service */
+	RegisteredPluginsMap* _registeredPluginsMap;	/** Map that contains all the plugins registered from the module */
+	RegisteredPluginsVector* _registeredPluginsVec;	/** List that contains all the plugins registered from the module */
+	CreatedPluginsVector* _createdPlugins;			/** List of all the plugins created from this module */
+
+	PluginDataToRestoreAfterReloadVector* _pluginsDataToRestoreAfterReload;	/** Data serialized by the plugins to be used when they get recreated after a module reload */
 };
 
 #endif //__Module_INCLUDE_H__

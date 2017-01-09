@@ -1,14 +1,18 @@
 #ifndef __CppPlugDefs_INCLUDE_H__
 #define __CppPlugDefs_INCLUDE_H__
 
-#if WIN32
-	#if CppPlug_EXPORT_SHARED
-		#define CppPlug_API __declspec(dllexport)
-	#else
-		#define CppPlug_API __declspec(dllimport)
-	#endif
-#else
+#if CppPlug_COMPILE_MANAGED_BRIDGE
 	#define CppPlug_API
+#else
+	#if WIN32
+		#if CppPlug_EXPORT_SHARED
+			#define CppPlug_API __declspec(dllexport)
+		#else
+			#define CppPlug_API __declspec(dllimport)
+		#endif
+	#else
+		#define CppPlug_API
+	#endif
 #endif
 
 #ifndef _C_EXPORT_

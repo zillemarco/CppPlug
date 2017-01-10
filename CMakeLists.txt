@@ -105,3 +105,7 @@ if(CREATE_INSTALL)
 									LIBRARY DESTINATION "bin/"
 									ARCHIVE DESTINATION "lib/")
 endif()
+
+
+
+# -h="D:\Progetti\Git\CppPlug\src\IModule.h" --inc="D:\Progetti\Git\CppPlug\src" -d="CppPlug_COMPILE_MANAGED_BRIDGE" --iln="CppPlug_d" --isln="CppPlug_d.dll" --od="D:\Progetti\Git\CppPlug" --on="CppPlug"

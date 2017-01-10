@@ -1,5 +1,5 @@
-#ifndef __I_Module_INCLUDE_H__
-#define __I_Module_INCLUDE_H__
+#ifndef __ModuleTools_INCLUDE_H__
+#define __ModuleTools_INCLUDE_H__
 
 #include "CppPlugDefs.h"
 
@@ -75,7 +75,6 @@ extern "C" {
 #endif
 
 /** Forward declaration of used types */
-struct ModuleInfo;
 struct PluginInfo;
 struct CreatedPlugin;
 struct ModuleDependencyInfo;
@@ -399,4 +398,4 @@ static ModuleInfo* GetDependency(ModuleInfo* dependencies, int dependenciesCount
 }
 #endif
 
-#endif //__I_Module_INCLUDE_H__
+#endif //__ModuleTools_INCLUDE_H__

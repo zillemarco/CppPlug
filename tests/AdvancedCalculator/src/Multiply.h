@@ -3,7 +3,7 @@
 
 #include "AdvancedCalculator.h"
 
-#include <IModule.h>
+#include <ModuleTools.h>
 #include <stdio.h>
 
 class AdvancedCalculator_API Multiply

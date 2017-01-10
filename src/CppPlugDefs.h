@@ -35,4 +35,13 @@
 	#error "The environment is not 32 bit and not 64 bit either"
 #endif
 
+#if SUPPORT_MANAGED
+	#if WIN32
+		#define MONO_DEFAULT_ASSEMBLY_DIR	"C:/Program Files (x86)/Mono/lib"
+		#define MONO_DEFAULT_CONFIG_DIR		"C:/Program Files (x86)/Mono/etc"
+	#endif
+
+	#define MONO_DEFAULT_DOMAIN_NAME "CppPlug"
+#endif
+
 #endif //__CppPlugDefs_INCLUDE_H__

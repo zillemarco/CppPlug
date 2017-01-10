@@ -2,7 +2,7 @@
 #define __Module_INCLUDE_H__
 
 #include "CppPlugDefs.h"
-#include "IModule.h"
+#include "ModuleTools.h"
 
 #include <vector>
 #include <string>
@@ -13,6 +13,7 @@
 class Plugin;
 class ModulesManager;
 class UnmanagedModule;
+struct PluginDataToRestoreAfterReload;
 
 #ifdef SUPPORT_MANAGED
 	class ManagedModule;

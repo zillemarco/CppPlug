@@ -2,7 +2,7 @@
 
 #include "Multiply.h"
 
-#include <IModule.h>
+#include <ModuleTools.h>
 #include <stdio.h>
 
 EXPORT_MODULE_EX(AdvancedCalculator_API,

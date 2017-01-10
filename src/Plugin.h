@@ -2,7 +2,7 @@
 #define __Plugin_INCLUDE_H__
 
 #include "CppPlugDefs.h"
-#include "IModule.h"
+#include "ModuleTools.h"
 
 #include <string>
 
@@ -17,6 +17,7 @@ class CppPlug_API Plugin
 {
 	friend class Module;
 	friend class UnmanagedModule;
+	friend class ManagedModule;
 
 protected:
 	Plugin() { }

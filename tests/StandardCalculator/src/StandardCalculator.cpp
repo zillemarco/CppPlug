@@ -2,7 +2,7 @@
 
 #include "Sum.h"
 
-#include <IModule.h>
+#include <ModuleTools.h>
 #include <stdio.h>
 
 EXPORT_MODULE_EX(StandardCalculator_API, 

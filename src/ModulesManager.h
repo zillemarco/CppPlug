@@ -36,6 +36,8 @@ public:
 
 	bool ReloadModule(std::shared_ptr<Module> module, std::function<void()> moduleUnloaded = nullptr, std::string* error = nullptr);
 
+	static bool Initialize(const std::string& monoDomainName = MONO_DEFAULT_DOMAIN_NAME, const std::string& monoAssemblyDir = MONO_DEFAULT_ASSEMBLY_DIR, const std::string& monoConfigDir = MONO_DEFAULT_CONFIG_DIR, std::string* error = nullptr);
+
 private:
 	void ReadModuleJSON(const Path& path, ModuleInfo& moduleInfos);
 

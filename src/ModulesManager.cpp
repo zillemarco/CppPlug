@@ -4,6 +4,7 @@
 #include "Path.h"
 
 #include "UnmanagedModule.h"
+#include "ManagedModule.h"
 
 #include <fstream>
 #include <regex>
@@ -35,12 +36,22 @@ ModulesManager::~ModulesManager()
 {
 	_loadedModules->clear();
 	delete _loadedModules;
+
+	ManagedModule::ShutDownMono();
 }
 
 ModulesManager& ModulesManager::GetInstance()
 {
 	static ModulesManager s_instance;
 	return s_instance;
+}
+
+bool ModulesManager::Initialize(const std::string& monoDomainName, const std::string& monoAssemblyDir, const std::string& monoConfigDir, std::string* error)
+{
+	std::string localError = "";
+	std::string* actualError = error != nullptr ? error : &localError;
+
+	return ManagedModule::InitializeMono(monoDomainName, monoAssemblyDir, monoConfigDir, *actualError);
 }
 
 std::shared_ptr<Module> ModulesManager::GetModule(const std::string& name)

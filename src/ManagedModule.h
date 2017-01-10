@@ -10,11 +10,13 @@
 #include "Module.h"
 
 class DynamicLibrary;
-struct PluginDataToRestoreAfterReload;
 struct ManagedModuleInternalData;
+struct MonoInitilizationData;
 
 class CppPlug_API ManagedModule : public Module
 {
+	friend class ModulesManager;
+
 public:
 	ManagedModule(const ModuleInfo& moduleInfo, const std::string& basePath);
 
@@ -26,8 +28,8 @@ protected:
 	bool Reload(std::function<void()> moduleUnloaded, std::string& error) override;
 
 protected:
-	static bool InitializeMono(std::string& error);
-	static bool ShutDownMono(std::string& error);
+	static bool InitializeMono(const std::string& domainName, const std::string& monoAssemblyDir, const std::string& monoConfigDir, std::string& error);
+	static void ShutDownMono();
 
 public:
 	std::vector<std::string> GetGivenServices() const override;
@@ -48,8 +50,9 @@ private:
 
 private:
 	ManagedModuleInternalData* _internalData; /** Internal data used by the managed module */
-
-	static bool s_monoInitialized;	/** Used to know if Mono has been initialized correctly */
+	
+	static MonoInitilizationData* s_monoInitilizationData;	/** Data got from Mono initialization */
+	static bool s_monoInitialized;							/** Used to know if Mono has been initialized correctly */
 };
 
 #endif //__ManagedModule_INCLUDE_H__

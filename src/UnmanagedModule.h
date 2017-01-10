@@ -8,7 +8,6 @@
 #include "Module.h"
 
 class DynamicLibrary;
-struct PluginDataToRestoreAfterReload;
 
 class CppPlug_API UnmanagedModule : public Module
 {

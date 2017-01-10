@@ -5,6 +5,8 @@
 #include "ModulesManager.h"
 #include "Path.h"
 
+#include "ModuleTools.hpp"
+
 #include <fstream>
 #include <sstream>
 
@@ -21,6 +23,12 @@ struct ManagedModuleInternalData
 	MonoImage* _moduleImage;			/** Image of the loaded module */
 };
 
+struct MonoInitilizationData
+{
+	MonoDomain* _domain;
+};
+
+MonoInitilizationData* ManagedModule::s_monoInitilizationData = nullptr;
 bool ManagedModule::s_monoInitialized = false;
 
 static char* ReadFile(const char* path, size_t& fileSize)
@@ -79,6 +87,44 @@ ManagedModule::~ManagedModule()
 		delete el;
 
 	delete _internalData;
+}
+
+bool ManagedModule::InitializeMono(const std::string& domainName, const std::string& monoAssemblyDir, const std::string& monoConfigDir, std::string& error)
+{
+	if (s_monoInitialized)
+		return true;
+
+	s_monoInitilizationData = new MonoInitilizationData();
+
+	mono_set_dirs(monoAssemblyDir.c_str(), monoConfigDir.c_str());
+	s_monoInitilizationData->_domain = mono_jit_init_version(domainName.c_str(), "v4.0.30319");
+
+	if (s_monoInitilizationData->_domain != nullptr)
+	{
+		s_monoInitialized = true;
+		return true;
+	}
+
+	error = "Unable to initialize the Mono domain";
+	s_monoInitialized = false;
+	return false;
+}
+
+void ManagedModule::ShutDownMono()
+{
+	if (s_monoInitialized)
+	{
+		if (s_monoInitilizationData)
+		{
+			mono_jit_cleanup(s_monoInitilizationData->_domain);
+			s_monoInitilizationData->_domain = nullptr;
+		}
+	}
+
+	if (s_monoInitilizationData)
+		delete s_monoInitilizationData;
+
+	s_monoInitialized = false;
 }
 
 bool ManagedModule::Load(std::string& error, bool reloadPluginsFromStoredData)
@@ -200,46 +246,61 @@ bool ManagedModule::Load(std::string& error, bool reloadPluginsFromStoredData)
 		return false;
 	}
 	
-	M
-
 	PluginInfo* registeredPlugins = nullptr;
 	int registeredPluginsCount = 0;
 
 	// Get the module's registered plugins
-	__getRegisteredPluginsFunc getRegisteredPluginsFunc = (__getRegisteredPluginsFunc)_moduleBinary->GetSymbol("__get_registered_plugins");
-	if (getRegisteredPluginsFunc)
+	MonoMethod* registerPluginsFunc = FindMethod(klass, "RegisterPlugins", 0);
+	if (registerPluginsFunc)
 	{
-		getRegisteredPluginsFunc(&registeredPlugins, registeredPluginsCount);
+		void* args = nullptr;
+		MonoObject* registeredPluginsObj = mono_runtime_invoke(registerPluginsFunc, nullptr, &args, nullptr);
 
-		for (int i = 0; i < registeredPluginsCount; i++)
+		if (registeredPluginsObj != nullptr)
 		{
-			PluginInfo& pi = registeredPlugins[i];
+			MonoArray* registeredPlugins = (MonoArray*)mono_object_unbox(registeredPluginsObj);
 
-			auto& rpIt = _registeredPluginsMap->find(pi._name);
-			if (rpIt == _registeredPluginsMap->end())
+			if (registeredPlugins != nullptr)
 			{
-				PluginInfo* newInfo = new PluginInfo();
-				CopyPluginInfo(*newInfo, pi);
+				unsigned int len = mono_array_length(registeredPlugins);
 
-				newInfo->_reserved_module = this;
-
-				(*_registeredPluginsMap)[pi._name] = newInfo;
-				_registeredPluginsVec->push_back(newInfo);
-
-				auto& gsIt = _givenServices->find(pi._service);
-				if (gsIt != _givenServices->end())
-					gsIt->second.push_back(newInfo);
-				else
+				for (unsigned int i = 0; i < len; i++)
 				{
-					std::vector<PluginInfo*> tmpVec;
-					tmpVec.push_back(newInfo);
+					MonoObject* obj = mono_array_get(registeredPlugins, MonoObject*, i);
 
-					(*_givenServices)[pi._service] = tmpVec;
+					if (obj)
+					{
+						CPluginInfo* infos = (CPluginInfo*)mono_object_unbox(obj);
+
+						if (infos && infos->_pluginInfo != nullptr)
+						{
+							auto& rpIt = _registeredPluginsMap->find(infos->Name());
+							if (rpIt == _registeredPluginsMap->end())
+							{
+								PluginInfo* newInfo = new PluginInfo();
+								CopyPluginInfo(*newInfo, *infos->_pluginInfo);
+
+								newInfo->_reserved_module = this;
+
+								(*_registeredPluginsMap)[infos->Name()] = newInfo;
+								_registeredPluginsVec->push_back(newInfo);
+
+								auto& gsIt = _givenServices->find(infos->Service());
+								if (gsIt != _givenServices->end())
+									gsIt->second.push_back(newInfo);
+								else
+								{
+									std::vector<PluginInfo*> tmpVec;
+									tmpVec.push_back(newInfo);
+
+									(*_givenServices)[infos->Service()] = tmpVec;
+								}
+							}
+						}
+					}
 				}
 			}
 		}
-
-		ClearPluginInfos(&registeredPlugins, registeredPluginsCount);
 	}
 
 	if (_registeredPluginsVec->size() > 0)
@@ -279,108 +340,110 @@ bool ManagedModule::Load(std::string& error, bool reloadPluginsFromStoredData)
 
 void ManagedModule::Unload(bool unloadDependantModules, bool storePluginsForReload)
 {
-	if (_moduleAssembly != nullptr && _moduleImage != nullptr)
-	{
-		// Unload all the modules that depend on this one
-		// Only when reloading the module the dependant plugins don't get unloaded
-		if (unloadDependantModules)
-		{
-			for (size_t i = 0; i < _dependantModules.size(); i++)
-				_dependantModules[i]->Unload();
-		}
+	//if (_moduleAssembly != nullptr && _moduleImage != nullptr)
+	//{
+	//	// Unload all the modules that depend on this one
+	//	// Only when reloading the module the dependant plugins don't get unloaded
+	//	if (unloadDependantModules)
+	//	{
+	//		for (size_t i = 0; i < _dependantModules.size(); i++)
+	//			_dependantModules[i]->Unload();
+	//	}
 
-		for (size_t i = 0; i < _createdPlugins->size(); i++)
-		{
-			CreatedPlugin* pl = _createdPlugins->at(i);
+	//	for (size_t i = 0; i < _createdPlugins->size(); i++)
+	//	{
+	//		CreatedPlugin* pl = _createdPlugins->at(i);
 
-			if (storePluginsForReload == false)
-			{
-				delete ((ManagedPlugin*)(pl->_reserved_plugin));
-				delete pl;
-			}
-			else
-			{
-				// Memorize the plugin data to be loaded again later
-				PluginDataToRestoreAfterReload* pluginData = new PluginDataToRestoreAfterReload();
-				pluginData->_pluginName = pl->_reserved_plugin_info->_name;
-				pluginData->_referencePlugin = pl;
+	//		if (storePluginsForReload == false)
+	//		{
+	//			delete ((ManagedPlugin*)(pl->_reserved_plugin));
+	//			delete pl;
+	//		}
+	//		else
+	//		{
+	//			// Memorize the plugin data to be loaded again later
+	//			PluginDataToRestoreAfterReload* pluginData = new PluginDataToRestoreAfterReload();
+	//			pluginData->_pluginName = pl->_reserved_plugin_info->_name;
+	//			pluginData->_referencePlugin = pl;
 
-				if (pl->_reserved_plugin_info->_saveDataForPluginReloadFunc)
-				{
-					const char* savedData = ((ManagedPlugin*)(pl->_reserved_plugin))->SaveDataForReload();
+	//			if (pl->_reserved_plugin_info->_saveDataForPluginReloadFunc)
+	//			{
+	//				const char* savedData = ((ManagedPlugin*)(pl->_reserved_plugin))->SaveDataForReload();
 
-					if (savedData != nullptr)
-						pluginData->_storedData = savedData;
-					else
-						pluginData->_storedData = "";
-				}
+	//				if (savedData != nullptr)
+	//					pluginData->_storedData = savedData;
+	//				else
+	//					pluginData->_storedData = "";
+	//			}
 
-				_pluginsDataToRestoreAfterReload->push_back(pluginData);
+	//			_pluginsDataToRestoreAfterReload->push_back(pluginData);
 
-				// Delete the plugin
-				delete ((ManagedPlugin*)(pl->_reserved_plugin));
-				pl->_reserved_plugin = nullptr;
-				pl->_reserved_plugin_info = nullptr;
-			}
-		}
+	//			// Delete the plugin
+	//			delete ((ManagedPlugin*)(pl->_reserved_plugin));
+	//			pl->_reserved_plugin = nullptr;
+	//			pl->_reserved_plugin_info = nullptr;
+	//		}
+	//	}
 
-		if (storePluginsForReload == false)
-			_createdPlugins->clear();
+	//	if (storePluginsForReload == false)
+	//		_createdPlugins->clear();
 
-		for (auto& el : (*_registeredPluginsVec))
-		{
-			DestroyPluginInfo(*el);
-			delete el;
-		}
+	//	for (auto& el : (*_registeredPluginsVec))
+	//	{
+	//		DestroyPluginInfo(*el);
+	//		delete el;
+	//	}
 
-		_registeredPluginsVec->clear();
-		_registeredPluginsMap->clear();
-		_givenServices->clear();
+	//	_registeredPluginsVec->clear();
+	//	_registeredPluginsMap->clear();
+	//	_givenServices->clear();
 
-		_unloadModuleFunc();
+	//	_unloadModuleFunc();
 
-		delete _moduleBinary;
-		_moduleBinary = nullptr;
-	}
+	//	delete _moduleBinary;
+	//	_moduleBinary = nullptr;
+	//}
 
 	NotifyUnloadToDependencies();
 }
 
 bool ManagedModule::Reload(std::function<void()> moduleUnloaded, std::string& error)
 {
-	if (_moduleAssembly == nullptr || _moduleImage == nullptr)
-	{
-		error = "The module wasn't loaded";
-		return false;
-	}
-	else
-	{
-		// Call the reload to give the module the chanche to save its data if it needs
-		if (_reloadModuleFunc == nullptr)
-		{
-			error = "The module hasn't got a reload method";
-			return false;
-		}
+	//if (_moduleAssembly == nullptr || _moduleImage == nullptr)
+	//{
+	//	error = "The module wasn't loaded";
+	//	return false;
+	//}
+	//else
+	//{
+	//	// Call the reload to give the module the chanche to save its data if it needs
+	//	if (_reloadModuleFunc == nullptr)
+	//	{
+	//		error = "The module hasn't got a reload method";
+	//		return false;
+	//	}
 
-		int result = _reloadModuleFunc();
-		if (result != 0)
-		{
-			std::stringstream ss;
-			ss << "The module's reload method returned an error code: " << result;
-			error = ss.str();
-			return false;
-		}
+	//	int result = _reloadModuleFunc();
+	//	if (result != 0)
+	//	{
+	//		std::stringstream ss;
+	//		ss << "The module's reload method returned an error code: " << result;
+	//		error = ss.str();
+	//		return false;
+	//	}
 
-		// Unload the module
-		Unload(false, true);
+	//	// Unload the module
+	//	Unload(false, true);
 
-		// Let the called know that the mobule has been unloaded
-		if (moduleUnloaded)
-			moduleUnloaded();
+	//	// Let the called know that the mobule has been unloaded
+	//	if (moduleUnloaded)
+	//		moduleUnloaded();
 
-		// Load the module again
-		return Load(error, true);
-	}
+	//	// Load the module again
+	//	return Load(error, true);
+	//}
+
+	return true;
 }
 
 std::vector<std::string> ManagedModule::GetGivenServices() const

@@ -2,7 +2,7 @@
 #define __Sum_INCLUDE_H__
 
 #include "StandardCalculator.h"
-#include <IModule.h>
+#include <ModuleTools.h>
 
 class StandardCalculator_API Sum
 {

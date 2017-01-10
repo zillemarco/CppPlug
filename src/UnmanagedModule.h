@@ -44,13 +44,6 @@ private:
 	__reloadModuleFunc _reloadModuleFunc;		/** Pointer to the function that gets called to reload the module */
 
 	DynamicLibrary* _moduleBinary;				/** Binary file that contains the module */
-
-	GivenServicesMap* _givenServices;				/** Map that contains all the services given from the module and for each service there is the list of plugins that give that service */
-	RegisteredPluginsMap* _registeredPluginsMap;	/** Map that contains all the plugins registered from the module */
-	RegisteredPluginsVector* _registeredPluginsVec;	/** List that contains all the plugins registered from the module */
-	CreatedPluginsVector* _createdPlugins;			/** List of all the plugins created from this module */
-	
-	PluginDataToRestoreAfterReloadVector* _pluginsDataToRestoreAfterReload;	/** Data serialized by the plugins to be used when they get recreated after a module reload */
 };
 
 #endif //__UnmanagedModule_INCLUDE_H__

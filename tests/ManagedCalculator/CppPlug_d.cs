@@ -10,7 +10,10 @@ using System.Security;
 
 namespace CppPlug
 {
-    public unsafe partial class CPluginInfo : IDisposable
+    [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointerAttribute(global::System.Runtime.InteropServices.CallingConvention.Cdecl)]
+    public unsafe delegate global::System.IntPtr CppCreatePluginFunc(global::System.IntPtr _0, int _1, global::System.IntPtr _2);
+
+    public unsafe partial struct CPluginInfo
     {
         [StructLayout(LayoutKind.Explicit, Size = 8)]
         public partial struct __Internal
@@ -23,112 +26,107 @@ namespace CppPlug
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "??0CPluginInfo@@QAE@PAUPluginInfo@@@Z")]
+                EntryPoint="??0CPluginInfo@@QAE@PAUPluginInfo@@@Z")]
             internal static extern global::System.IntPtr ctor_0(global::System.IntPtr instance, global::System.IntPtr pluginInfo);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "??0CPluginInfo@@QAE@XZ")]
+                EntryPoint="??0CPluginInfo@@QAE@XZ")]
             internal static extern global::System.IntPtr ctor_1(global::System.IntPtr instance);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "??0CPluginInfo@@QAE@PBD0P6APAXPAUModuleInfo@@HPAX@ZP6AX2@ZP6A_N202@ZP6APBD2@ZP6AX20@Z@Z")]
+                EntryPoint="??0CPluginInfo@@QAE@PBD0P6APAXPAVCModuleInfo@@HPAX@ZP6AX2@ZP6A_N202@ZP6APBD2@ZP6AX20@Z@Z")]
             internal static extern global::System.IntPtr ctor_2(global::System.IntPtr instance, [MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string service, global::System.IntPtr createPluginFunc, global::System.IntPtr destroyPluginFunc, global::System.IntPtr onMessagePluginFunc, global::System.IntPtr saveDataForPluginReloadFunc, global::System.IntPtr loadDataAfterPluginReloadFunc);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "??0CPluginInfo@@QAE@ABV0@@Z")]
+                EntryPoint="??0CPluginInfo@@QAE@ABV0@@Z")]
             internal static extern global::System.IntPtr cctor_3(global::System.IntPtr instance, global::System.IntPtr src);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "??1CPluginInfo@@QAE@XZ")]
+                EntryPoint="??1CPluginInfo@@QAE@XZ")]
             internal static extern void dtor_0(global::System.IntPtr instance, int delete);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "?FromPluginInfo@CPluginInfo@@SA?AV1@PAUPluginInfo@@@Z")]
+                EntryPoint="?FromPluginInfo@CPluginInfo@@SA?AV1@PAUPluginInfo@@@Z")]
             internal static extern void FromPluginInfo_0(global::System.IntPtr @return, global::System.IntPtr pluginInfo);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?Name@CPluginInfo@@QAEXPBD@Z")]
+                EntryPoint="?Name@CPluginInfo@@QAEXPBD@Z")]
             internal static extern void Name_0(global::System.IntPtr instance, [MarshalAs(UnmanagedType.LPStr)] string name);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?Name@CPluginInfo@@QBEPBDXZ")]
+                EntryPoint="?Name@CPluginInfo@@QBEPBDXZ")]
             internal static extern global::System.IntPtr Name_1(global::System.IntPtr instance);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?Service@CPluginInfo@@QAEXPBD@Z")]
+                EntryPoint="?Service@CPluginInfo@@QAEXPBD@Z")]
             internal static extern void Service_0(global::System.IntPtr instance, [MarshalAs(UnmanagedType.LPStr)] string service);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?Service@CPluginInfo@@QBEPBDXZ")]
+                EntryPoint="?Service@CPluginInfo@@QBEPBDXZ")]
             internal static extern global::System.IntPtr Service_1(global::System.IntPtr instance);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?CreateFunc@CPluginInfo@@QAEXP6APAXPAUModuleInfo@@HPAX@Z@Z")]
+                EntryPoint="?CreateFunc@CPluginInfo@@QAEXP6APAXPAVCModuleInfo@@HPAX@Z@Z")]
             internal static extern void CreateFunc_0(global::System.IntPtr instance, global::System.IntPtr createPluginFunc);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?CreateFunc@CPluginInfo@@QBEP6APAXPAUModuleInfo@@HPAX@ZXZ")]
+                EntryPoint="?CreateFunc@CPluginInfo@@QBEP6APAXPAVCModuleInfo@@HPAX@ZXZ")]
             internal static extern global::System.IntPtr CreateFunc_1(global::System.IntPtr instance);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?DestroyFunc@CPluginInfo@@QAEXP6AXPAX@Z@Z")]
+                EntryPoint="?DestroyFunc@CPluginInfo@@QAEXP6AXPAX@Z@Z")]
             internal static extern void DestroyFunc_0(global::System.IntPtr instance, global::System.IntPtr destroyPluginFunc);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?DestroyFunc@CPluginInfo@@QBEP6AXPAX@ZXZ")]
+                EntryPoint="?DestroyFunc@CPluginInfo@@QBEP6AXPAX@ZXZ")]
             internal static extern global::System.IntPtr DestroyFunc_1(global::System.IntPtr instance);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?OnMessageFunc@CPluginInfo@@QAEXP6A_NPAXPBD0@Z@Z")]
+                EntryPoint="?OnMessageFunc@CPluginInfo@@QAEXP6A_NPAXPBD0@Z@Z")]
             internal static extern void OnMessageFunc_0(global::System.IntPtr instance, global::System.IntPtr onMessagePluginFunc);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?OnMessageFunc@CPluginInfo@@QBEP6A_NPAXPBD0@ZXZ")]
+                EntryPoint="?OnMessageFunc@CPluginInfo@@QBEP6A_NPAXPBD0@ZXZ")]
             internal static extern global::System.IntPtr OnMessageFunc_1(global::System.IntPtr instance);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?SaveDataForReloadFunc@CPluginInfo@@QAEXP6APBDPAX@Z@Z")]
+                EntryPoint="?SaveDataForReloadFunc@CPluginInfo@@QAEXP6APBDPAX@Z@Z")]
             internal static extern void SaveDataForReloadFunc_0(global::System.IntPtr instance, global::System.IntPtr saveDataForPluginReloadFunc);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?SaveDataForReloadFunc@CPluginInfo@@QBEP6APBDPAX@ZXZ")]
+                EntryPoint="?SaveDataForReloadFunc@CPluginInfo@@QBEP6APBDPAX@ZXZ")]
             internal static extern global::System.IntPtr SaveDataForReloadFunc_1(global::System.IntPtr instance);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?LoadDataAfterReloadFunc@CPluginInfo@@QAEXP6AXPAXPBD@Z@Z")]
+                EntryPoint="?LoadDataAfterReloadFunc@CPluginInfo@@QAEXP6AXPAXPBD@Z@Z")]
             internal static extern void LoadDataAfterReloadFunc_0(global::System.IntPtr instance, global::System.IntPtr loadDataAfterPluginReloadFunc);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?LoadDataAfterReloadFunc@CPluginInfo@@QBEP6AXPAXPBD@ZXZ")]
+                EntryPoint="?LoadDataAfterReloadFunc@CPluginInfo@@QBEP6AXPAXPBD@ZXZ")]
             internal static extern global::System.IntPtr LoadDataAfterReloadFunc_1(global::System.IntPtr instance);
         }
 
-        public global::System.IntPtr __Instance { get; protected set; }
-
-        protected int __PointerAdjustment;
-        public static readonly System.Collections.Concurrent.ConcurrentDictionary<IntPtr, CPluginInfo> NativeToManagedMap = new System.Collections.Concurrent.ConcurrentDictionary<IntPtr, CPluginInfo>();
-        protected void*[] __OriginalVTables;
-
-        protected bool __ownsNativeInstance;
+        private CPluginInfo.__Internal __instance;
+        public CPluginInfo.__Internal __Instance { get { return __instance; } }
 
         public static CPluginInfo __CreateInstance(global::System.IntPtr native, bool skipVTables = false)
         {
@@ -140,168 +138,179 @@ namespace CppPlug
             return new CPluginInfo(native, skipVTables);
         }
 
-        private static void* __CopyValue(CPluginInfo.__Internal native)
-        {
-            var ret = Marshal.AllocHGlobal(8);
-            CPluginInfo.__Internal.cctor_3(ret, new global::System.IntPtr(&native));
-            return ret.ToPointer();
-        }
-
         private CPluginInfo(CPluginInfo.__Internal native, bool skipVTables = false)
-            : this(__CopyValue(native), skipVTables)
+            : this()
         {
-            __ownsNativeInstance = true;
-            NativeToManagedMap[__Instance] = this;
+            __instance = native;
         }
 
-        protected CPluginInfo(void* native, bool skipVTables = false)
+        private CPluginInfo(void* native, bool skipVTables = false) : this()
         {
-            if (native == null)
-                return;
-            __Instance = new global::System.IntPtr(native);
+            __instance = *(__Internal*) native;
         }
 
         public CPluginInfo(PluginInfo pluginInfo)
+            : this()
         {
-            __Instance = Marshal.AllocHGlobal(8);
-            __ownsNativeInstance = true;
-            NativeToManagedMap[__Instance] = this;
             var __arg0 = ReferenceEquals(pluginInfo, null) ? global::System.IntPtr.Zero : pluginInfo.__Instance;
-            __Internal.ctor_0((__Instance + __PointerAdjustment), __arg0);
+            fixed (__Internal* __instancePtr = &__instance)
+            {
+                __Internal.ctor_0(new global::System.IntPtr(__instancePtr), __arg0);
+            }
         }
 
-        public CPluginInfo()
+        public CPluginInfo(string name, string service, CppCreatePluginFunc createPluginFunc, DestroyPluginFunc destroyPluginFunc, OnMessagePluginFunc onMessagePluginFunc, SaveDataForPluginReloadFunc saveDataForPluginReloadFunc, LoadDataAfterPluginReloadFunc loadDataAfterPluginReloadFunc)
+            : this()
         {
-            __Instance = Marshal.AllocHGlobal(8);
-            __ownsNativeInstance = true;
-            NativeToManagedMap[__Instance] = this;
-            __Internal.ctor_1((__Instance + __PointerAdjustment));
-        }
-
-        public CPluginInfo(string name, string service, CreatePluginFunc createPluginFunc, DestroyPluginFunc destroyPluginFunc, OnMessagePluginFunc onMessagePluginFunc, SaveDataForPluginReloadFunc saveDataForPluginReloadFunc, LoadDataAfterPluginReloadFunc loadDataAfterPluginReloadFunc)
-        {
-            __Instance = Marshal.AllocHGlobal(8);
-            __ownsNativeInstance = true;
-            NativeToManagedMap[__Instance] = this;
             var __arg2 = createPluginFunc == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(createPluginFunc);
             var __arg3 = destroyPluginFunc == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(destroyPluginFunc);
             var __arg4 = onMessagePluginFunc == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(onMessagePluginFunc);
             var __arg5 = saveDataForPluginReloadFunc == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(saveDataForPluginReloadFunc);
             var __arg6 = loadDataAfterPluginReloadFunc == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(loadDataAfterPluginReloadFunc);
-            __Internal.ctor_2((__Instance + __PointerAdjustment), name, service, __arg2, __arg3, __arg4, __arg5, __arg6);
+            fixed (__Internal* __instancePtr = &__instance)
+            {
+                __Internal.ctor_2(new global::System.IntPtr(__instancePtr), name, service, __arg2, __arg3, __arg4, __arg5, __arg6);
+            }
         }
 
         public CPluginInfo(CPluginInfo src)
+            : this()
         {
-            __Instance = Marshal.AllocHGlobal(8);
-            __ownsNativeInstance = true;
-            NativeToManagedMap[__Instance] = this;
-            if (ReferenceEquals(src, null))
-                throw new global::System.ArgumentNullException("src", "Cannot be null because it is a C++ reference (&).");
-            var __arg0 = src.__Instance;
-            __Internal.cctor_3((__Instance + __PointerAdjustment), __arg0);
-        }
-
-        public void Dispose()
-        {
-            Dispose(disposing: true);
-        }
-
-        public virtual void Dispose(bool disposing)
-        {
-            CPluginInfo __dummy;
-            NativeToManagedMap.TryRemove(__Instance, out __dummy);
-            if (disposing)
-                __Internal.dtor_0((__Instance + __PointerAdjustment), 0);
-            if (__ownsNativeInstance)
-                Marshal.FreeHGlobal(__Instance);
+            var ____arg0 = src.__Instance;
+            var __arg0 = new global::System.IntPtr(&____arg0);
+            fixed (__Internal* __instancePtr = &__instance)
+            {
+                __Internal.cctor_3(new global::System.IntPtr(__instancePtr), __arg0);
+            }
         }
 
         public void Name(string name)
         {
-            __Internal.Name_0((__Instance + __PointerAdjustment), name);
+            fixed (__Internal* __instancePtr = &__instance)
+            {
+                __Internal.Name_0(new global::System.IntPtr(__instancePtr), name);
+            }
         }
 
         public string Name()
         {
-            var __ret = __Internal.Name_1((__Instance + __PointerAdjustment));
-            return Marshal.PtrToStringAnsi(__ret);
+            fixed (__Internal* __instancePtr = &__instance)
+            {
+                var __ret = __Internal.Name_1(new global::System.IntPtr(__instancePtr));
+                return Marshal.PtrToStringAnsi(__ret);
+            }
         }
 
         public void Service(string service)
         {
-            __Internal.Service_0((__Instance + __PointerAdjustment), service);
+            fixed (__Internal* __instancePtr = &__instance)
+            {
+                __Internal.Service_0(new global::System.IntPtr(__instancePtr), service);
+            }
         }
 
         public string Service()
         {
-            var __ret = __Internal.Service_1((__Instance + __PointerAdjustment));
-            return Marshal.PtrToStringAnsi(__ret);
+            fixed (__Internal* __instancePtr = &__instance)
+            {
+                var __ret = __Internal.Service_1(new global::System.IntPtr(__instancePtr));
+                return Marshal.PtrToStringAnsi(__ret);
+            }
         }
 
-        public void CreateFunc(CreatePluginFunc createPluginFunc)
+        public void CreateFunc(CppCreatePluginFunc createPluginFunc)
         {
             var __arg0 = createPluginFunc == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(createPluginFunc);
-            __Internal.CreateFunc_0((__Instance + __PointerAdjustment), __arg0);
+            fixed (__Internal* __instancePtr = &__instance)
+            {
+                __Internal.CreateFunc_0(new global::System.IntPtr(__instancePtr), __arg0);
+            }
         }
 
-        public CreatePluginFunc CreateFunc()
+        public CppCreatePluginFunc CreateFunc()
         {
-            var __ret = __Internal.CreateFunc_1((__Instance + __PointerAdjustment));
-            var __ptr0 = __ret;
-            return (CreatePluginFunc)Marshal.GetDelegateForFunctionPointer(__ptr0, typeof(CreatePluginFunc));
+            fixed (__Internal* __instancePtr = &__instance)
+            {
+                var __ret = __Internal.CreateFunc_1(new global::System.IntPtr(__instancePtr));
+                var __ptr0 = __ret;
+                return (CppCreatePluginFunc)Marshal.GetDelegateForFunctionPointer(__ptr0, typeof(CppCreatePluginFunc));
+            }
         }
 
         public void DestroyFunc(DestroyPluginFunc destroyPluginFunc)
         {
             var __arg0 = destroyPluginFunc == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(destroyPluginFunc);
-            __Internal.DestroyFunc_0((__Instance + __PointerAdjustment), __arg0);
+            fixed (__Internal* __instancePtr = &__instance)
+            {
+                __Internal.DestroyFunc_0(new global::System.IntPtr(__instancePtr), __arg0);
+            }
         }
 
         public DestroyPluginFunc DestroyFunc()
         {
-            var __ret = __Internal.DestroyFunc_1((__Instance + __PointerAdjustment));
-            var __ptr0 = __ret;
-            return (DestroyPluginFunc)Marshal.GetDelegateForFunctionPointer(__ptr0, typeof(DestroyPluginFunc));
+            fixed (__Internal* __instancePtr = &__instance)
+            {
+                var __ret = __Internal.DestroyFunc_1(new global::System.IntPtr(__instancePtr));
+                var __ptr0 = __ret;
+                return (DestroyPluginFunc)Marshal.GetDelegateForFunctionPointer(__ptr0, typeof(DestroyPluginFunc));
+            }
         }
 
         public void OnMessageFunc(OnMessagePluginFunc onMessagePluginFunc)
         {
             var __arg0 = onMessagePluginFunc == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(onMessagePluginFunc);
-            __Internal.OnMessageFunc_0((__Instance + __PointerAdjustment), __arg0);
+            fixed (__Internal* __instancePtr = &__instance)
+            {
+                __Internal.OnMessageFunc_0(new global::System.IntPtr(__instancePtr), __arg0);
+            }
         }
 
         public OnMessagePluginFunc OnMessageFunc()
         {
-            var __ret = __Internal.OnMessageFunc_1((__Instance + __PointerAdjustment));
-            var __ptr0 = __ret;
-            return (OnMessagePluginFunc)Marshal.GetDelegateForFunctionPointer(__ptr0, typeof(OnMessagePluginFunc));
+            fixed (__Internal* __instancePtr = &__instance)
+            {
+                var __ret = __Internal.OnMessageFunc_1(new global::System.IntPtr(__instancePtr));
+                var __ptr0 = __ret;
+                return (OnMessagePluginFunc)Marshal.GetDelegateForFunctionPointer(__ptr0, typeof(OnMessagePluginFunc));
+            }
         }
 
         public void SaveDataForReloadFunc(SaveDataForPluginReloadFunc saveDataForPluginReloadFunc)
         {
             var __arg0 = saveDataForPluginReloadFunc == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(saveDataForPluginReloadFunc);
-            __Internal.SaveDataForReloadFunc_0((__Instance + __PointerAdjustment), __arg0);
+            fixed (__Internal* __instancePtr = &__instance)
+            {
+                __Internal.SaveDataForReloadFunc_0(new global::System.IntPtr(__instancePtr), __arg0);
+            }
         }
 
         public SaveDataForPluginReloadFunc SaveDataForReloadFunc()
         {
-            var __ret = __Internal.SaveDataForReloadFunc_1((__Instance + __PointerAdjustment));
-            var __ptr0 = __ret;
-            return (SaveDataForPluginReloadFunc)Marshal.GetDelegateForFunctionPointer(__ptr0, typeof(SaveDataForPluginReloadFunc));
+            fixed (__Internal* __instancePtr = &__instance)
+            {
+                var __ret = __Internal.SaveDataForReloadFunc_1(new global::System.IntPtr(__instancePtr));
+                var __ptr0 = __ret;
+                return (SaveDataForPluginReloadFunc)Marshal.GetDelegateForFunctionPointer(__ptr0, typeof(SaveDataForPluginReloadFunc));
+            }
         }
 
         public void LoadDataAfterReloadFunc(LoadDataAfterPluginReloadFunc loadDataAfterPluginReloadFunc)
         {
             var __arg0 = loadDataAfterPluginReloadFunc == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(loadDataAfterPluginReloadFunc);
-            __Internal.LoadDataAfterReloadFunc_0((__Instance + __PointerAdjustment), __arg0);
+            fixed (__Internal* __instancePtr = &__instance)
+            {
+                __Internal.LoadDataAfterReloadFunc_0(new global::System.IntPtr(__instancePtr), __arg0);
+            }
         }
 
         public LoadDataAfterPluginReloadFunc LoadDataAfterReloadFunc()
         {
-            var __ret = __Internal.LoadDataAfterReloadFunc_1((__Instance + __PointerAdjustment));
-            var __ptr0 = __ret;
-            return (LoadDataAfterPluginReloadFunc)Marshal.GetDelegateForFunctionPointer(__ptr0, typeof(LoadDataAfterPluginReloadFunc));
+            fixed (__Internal* __instancePtr = &__instance)
+            {
+                var __ret = __Internal.LoadDataAfterReloadFunc_1(new global::System.IntPtr(__instancePtr));
+                var __ptr0 = __ret;
+                return (LoadDataAfterPluginReloadFunc)Marshal.GetDelegateForFunctionPointer(__ptr0, typeof(LoadDataAfterPluginReloadFunc));
+            }
         }
 
         public static implicit operator CPluginInfo(PluginInfo pluginInfo)
@@ -331,33 +340,33 @@ namespace CppPlug
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "??0CCreatedPlugin@@QAE@PAUCreatedPlugin@@@Z")]
+                EntryPoint="??0CCreatedPlugin@@QAE@PAUCreatedPlugin@@@Z")]
             internal static extern global::System.IntPtr ctor_0(global::System.IntPtr instance, global::System.IntPtr createdPlugin);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "??0CCreatedPlugin@@QAE@ABV0@@Z")]
+                EntryPoint="??0CCreatedPlugin@@QAE@ABV0@@Z")]
             internal static extern global::System.IntPtr cctor_1(global::System.IntPtr instance, global::System.IntPtr src);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "??1CCreatedPlugin@@QAE@XZ")]
+                EntryPoint="??1CCreatedPlugin@@QAE@XZ")]
             internal static extern void dtor_0(global::System.IntPtr instance, int delete);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "?FromCreatedPlugin@CCreatedPlugin@@SA?AV1@PAUCreatedPlugin@@@Z")]
+                EntryPoint="?FromCreatedPlugin@CCreatedPlugin@@SA?AV1@PAUCreatedPlugin@@@Z")]
             internal static extern void FromCreatedPlugin_0(global::System.IntPtr @return, global::System.IntPtr createdPlugin);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?Destroy@CCreatedPlugin@@QAE_NXZ")]
+                EntryPoint="?Destroy@CCreatedPlugin@@QAE_NXZ")]
             [return: MarshalAsAttribute(UnmanagedType.I1)]
             internal static extern bool Destroy_0(global::System.IntPtr instance);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?SendMessage@CCreatedPlugin@@QAE_NPBDPAX@Z")]
+                EntryPoint="?SendMessage@CCreatedPlugin@@QAE_NPBDPAX@Z")]
             [return: MarshalAsAttribute(UnmanagedType.I1)]
             internal static extern bool SendMessage_0(global::System.IntPtr instance, [MarshalAs(UnmanagedType.LPStr)] string messageName, global::System.IntPtr messageData);
         }
@@ -475,32 +484,32 @@ namespace CppPlug
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "??0CModuleDependencyInfo@@QAE@PAUModuleDependencyInfo@@@Z")]
+                EntryPoint="??0CModuleDependencyInfo@@QAE@PAUModuleDependencyInfo@@@Z")]
             internal static extern global::System.IntPtr ctor_0(global::System.IntPtr instance, global::System.IntPtr moduleDependencyInfo);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "??0CModuleDependencyInfo@@QAE@ABV0@@Z")]
+                EntryPoint="??0CModuleDependencyInfo@@QAE@ABV0@@Z")]
             internal static extern global::System.IntPtr cctor_1(global::System.IntPtr instance, global::System.IntPtr src);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "??1CModuleDependencyInfo@@QAE@XZ")]
+                EntryPoint="??1CModuleDependencyInfo@@QAE@XZ")]
             internal static extern void dtor_0(global::System.IntPtr instance, int delete);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "?FromModuleDependencyInfo@CModuleDependencyInfo@@SA?AV1@PAUModuleDependencyInfo@@@Z")]
+                EntryPoint="?FromModuleDependencyInfo@CModuleDependencyInfo@@SA?AV1@PAUModuleDependencyInfo@@@Z")]
             internal static extern void FromModuleDependencyInfo_0(global::System.IntPtr @return, global::System.IntPtr moduleDependencyInfo);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?Version@CModuleDependencyInfo@@QBEXAAH000@Z")]
+                EntryPoint="?Version@CModuleDependencyInfo@@QBEXAAH000@Z")]
             internal static extern void Version_0(global::System.IntPtr instance, int* major, int* minor, int* patch, int* flags);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?Name@CModuleDependencyInfo@@QBEPBDXZ")]
+                EntryPoint="?Name@CModuleDependencyInfo@@QBEPBDXZ")]
             internal static extern global::System.IntPtr Name_0(global::System.IntPtr instance);
         }
 
@@ -635,112 +644,112 @@ namespace CppPlug
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "??0CModuleInfo@@QAE@PAUModuleInfo@@@Z")]
+                EntryPoint="??0CModuleInfo@@QAE@PAUModuleInfo@@@Z")]
             internal static extern global::System.IntPtr ctor_0(global::System.IntPtr instance, global::System.IntPtr moduleInfo);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "??0CModuleInfo@@QAE@XZ")]
+                EntryPoint="??0CModuleInfo@@QAE@XZ")]
             internal static extern global::System.IntPtr ctor_1(global::System.IntPtr instance);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "??0CModuleInfo@@QAE@ABV0@@Z")]
+                EntryPoint="??0CModuleInfo@@QAE@ABV0@@Z")]
             internal static extern global::System.IntPtr cctor_2(global::System.IntPtr instance, global::System.IntPtr src);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "??1CModuleInfo@@QAE@XZ")]
+                EntryPoint="??1CModuleInfo@@QAE@XZ")]
             internal static extern void dtor_0(global::System.IntPtr instance, int delete);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "?FromModuleInfo@CModuleInfo@@SA?AV1@PAUModuleInfo@@@Z")]
+                EntryPoint="?FromModuleInfo@CModuleInfo@@SA?AV1@PAUModuleInfo@@@Z")]
             internal static extern void FromModuleInfo_0(global::System.IntPtr @return, global::System.IntPtr moduleInfo);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?Name@CModuleInfo@@QAEXPBD@Z")]
+                EntryPoint="?Name@CModuleInfo@@QAEXPBD@Z")]
             internal static extern void Name_0(global::System.IntPtr instance, [MarshalAs(UnmanagedType.LPStr)] string name);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?Name@CModuleInfo@@QBEPBDXZ")]
+                EntryPoint="?Name@CModuleInfo@@QBEPBDXZ")]
             internal static extern global::System.IntPtr Name_1(global::System.IntPtr instance);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?Type@CModuleInfo@@QAEXW4ModuleType@@@Z")]
+                EntryPoint="?Type@CModuleInfo@@QAEXW4ModuleType@@@Z")]
             internal static extern void Type_0(global::System.IntPtr instance, ModuleType type);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?Type@CModuleInfo@@QBE?AW4ModuleType@@XZ")]
+                EntryPoint="?Type@CModuleInfo@@QBE?AW4ModuleType@@XZ")]
             internal static extern ModuleType Type_1(global::System.IntPtr instance);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?Description@CModuleInfo@@QAEXPBD@Z")]
+                EntryPoint="?Description@CModuleInfo@@QAEXPBD@Z")]
             internal static extern void Description_0(global::System.IntPtr instance, [MarshalAs(UnmanagedType.LPStr)] string description);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?Description@CModuleInfo@@QBEPBDXZ")]
+                EntryPoint="?Description@CModuleInfo@@QBEPBDXZ")]
             internal static extern global::System.IntPtr Description_1(global::System.IntPtr instance);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?Author@CModuleInfo@@QAEXPBD@Z")]
+                EntryPoint="?Author@CModuleInfo@@QAEXPBD@Z")]
             internal static extern void Author_0(global::System.IntPtr instance, [MarshalAs(UnmanagedType.LPStr)] string author);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?Author@CModuleInfo@@QBEPBDXZ")]
+                EntryPoint="?Author@CModuleInfo@@QBEPBDXZ")]
             internal static extern global::System.IntPtr Author_1(global::System.IntPtr instance);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?Website@CModuleInfo@@QAEXPBD@Z")]
+                EntryPoint="?Website@CModuleInfo@@QAEXPBD@Z")]
             internal static extern void Website_0(global::System.IntPtr instance, [MarshalAs(UnmanagedType.LPStr)] string website);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?Website@CModuleInfo@@QBEPBDXZ")]
+                EntryPoint="?Website@CModuleInfo@@QBEPBDXZ")]
             internal static extern global::System.IntPtr Website_1(global::System.IntPtr instance);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?Issues@CModuleInfo@@QAEXPBD@Z")]
+                EntryPoint="?Issues@CModuleInfo@@QAEXPBD@Z")]
             internal static extern void Issues_0(global::System.IntPtr instance, [MarshalAs(UnmanagedType.LPStr)] string issues);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?Issues@CModuleInfo@@QBEPBDXZ")]
+                EntryPoint="?Issues@CModuleInfo@@QBEPBDXZ")]
             internal static extern global::System.IntPtr Issues_1(global::System.IntPtr instance);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?License@CModuleInfo@@QAEXPBD@Z")]
+                EntryPoint="?License@CModuleInfo@@QAEXPBD@Z")]
             internal static extern void License_0(global::System.IntPtr instance, [MarshalAs(UnmanagedType.LPStr)] string license);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?License@CModuleInfo@@QBEPBDXZ")]
+                EntryPoint="?License@CModuleInfo@@QBEPBDXZ")]
             internal static extern global::System.IntPtr License_1(global::System.IntPtr instance);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?SetVersion@CModuleInfo@@QAEXHHH@Z")]
+                EntryPoint="?SetVersion@CModuleInfo@@QAEXHHH@Z")]
             internal static extern void SetVersion_0(global::System.IntPtr instance, int major, int minor, int patch);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?GetVersion@CModuleInfo@@QBEXAAH00@Z")]
+                EntryPoint="?GetVersion@CModuleInfo@@QBEXAAH00@Z")]
             internal static extern void GetVersion_0(global::System.IntPtr instance, int* major, int* minor, int* patch);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?CreatePlugin@CModuleInfo@@QAE?AVCCreatedPlugin@@PBDPAX@Z")]
+                EntryPoint="?CreatePlugin@CModuleInfo@@QAE?AVCCreatedPlugin@@PBDPAX@Z")]
             internal static extern void CreatePlugin_0(global::System.IntPtr instance, global::System.IntPtr @return, [MarshalAs(UnmanagedType.LPStr)] string pluginName, global::System.IntPtr creationData);
         }
 
@@ -925,7 +934,7 @@ namespace CppPlug
             }
         }
 
-        public CCreatedPlugin CreatePlugin(string pluginName, global::System.IntPtr creationData)
+        public CCreatedPlugin CreatePlugin(string pluginName, global::System.IntPtr creationData = new global::System.IntPtr())
         {
             var __ret = new CCreatedPlugin.__Internal();
             __Internal.CreatePlugin_0((__Instance + __PointerAdjustment), new IntPtr(&__ret), pluginName, creationData);
@@ -946,7 +955,7 @@ namespace CppPlug
         }
     }
 
-    public unsafe partial class CLoadModuleResult : IDisposable
+    public unsafe partial struct CLoadModuleResult
     {
         [StructLayout(LayoutKind.Explicit, Size = 8)]
         public partial struct __Internal
@@ -956,47 +965,42 @@ namespace CppPlug
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "??0CLoadModuleResult@@QAE@P6AHXZ0@Z")]
+                EntryPoint="??0CLoadModuleResult@@QAE@P6AHXZ0@Z")]
             internal static extern global::System.IntPtr ctor_0(global::System.IntPtr instance, global::System.IntPtr reloadModuleFunc, global::System.IntPtr unloadModuleFunc);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "??0CLoadModuleResult@@QAE@ABV0@@Z")]
+                EntryPoint="??0CLoadModuleResult@@QAE@ABV0@@Z")]
             internal static extern global::System.IntPtr cctor_1(global::System.IntPtr instance, global::System.IntPtr src);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "??1CLoadModuleResult@@QAE@XZ")]
+                EntryPoint="??1CLoadModuleResult@@QAE@XZ")]
             internal static extern void dtor_0(global::System.IntPtr instance, int delete);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?ReloadModuleFunc@CLoadModuleResult@@QAEXP6AHXZ@Z")]
+                EntryPoint="?ReloadModuleFunc@CLoadModuleResult@@QAEXP6AHXZ@Z")]
             internal static extern void ReloadModuleFunc_0(global::System.IntPtr instance, global::System.IntPtr reloadModuleFunc);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?ReloadModuleFunc@CLoadModuleResult@@QBEP6AHXZXZ")]
+                EntryPoint="?ReloadModuleFunc@CLoadModuleResult@@QBEP6AHXZXZ")]
             internal static extern global::System.IntPtr ReloadModuleFunc_1(global::System.IntPtr instance);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?UnloadModuleFunc@CLoadModuleResult@@QAEXP6AHXZ@Z")]
+                EntryPoint="?UnloadModuleFunc@CLoadModuleResult@@QAEXP6AHXZ@Z")]
             internal static extern void UnloadModuleFunc_0(global::System.IntPtr instance, global::System.IntPtr unloadModuleFunc);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "?UnloadModuleFunc@CLoadModuleResult@@QBEP6AHXZXZ")]
+                EntryPoint="?UnloadModuleFunc@CLoadModuleResult@@QBEP6AHXZXZ")]
             internal static extern global::System.IntPtr UnloadModuleFunc_1(global::System.IntPtr instance);
         }
 
-        public global::System.IntPtr __Instance { get; protected set; }
-
-        protected int __PointerAdjustment;
-        public static readonly System.Collections.Concurrent.ConcurrentDictionary<IntPtr, CLoadModuleResult> NativeToManagedMap = new System.Collections.Concurrent.ConcurrentDictionary<IntPtr, CLoadModuleResult>();
-        protected void*[] __OriginalVTables;
-
-        protected bool __ownsNativeInstance;
+        private CLoadModuleResult.__Internal __instance;
+        public CLoadModuleResult.__Internal __Instance { get { return __instance; } }
 
         public static CLoadModuleResult __CreateInstance(global::System.IntPtr native, bool skipVTables = false)
         {
@@ -1008,112 +1012,100 @@ namespace CppPlug
             return new CLoadModuleResult(native, skipVTables);
         }
 
-        private static void* __CopyValue(CLoadModuleResult.__Internal native)
-        {
-            var ret = Marshal.AllocHGlobal(8);
-            CLoadModuleResult.__Internal.cctor_1(ret, new global::System.IntPtr(&native));
-            return ret.ToPointer();
-        }
-
         private CLoadModuleResult(CLoadModuleResult.__Internal native, bool skipVTables = false)
-            : this(__CopyValue(native), skipVTables)
+            : this()
         {
-            __ownsNativeInstance = true;
-            NativeToManagedMap[__Instance] = this;
+            __instance = native;
         }
 
-        protected CLoadModuleResult(void* native, bool skipVTables = false)
+        private CLoadModuleResult(void* native, bool skipVTables = false) : this()
         {
-            if (native == null)
-                return;
-            __Instance = new global::System.IntPtr(native);
+            __instance = *(__Internal*) native;
         }
 
         public CLoadModuleResult(ReloadModuleFunc reloadModuleFunc, UnloadModuleFunc unloadModuleFunc)
+            : this()
         {
-            __Instance = Marshal.AllocHGlobal(8);
-            __ownsNativeInstance = true;
-            NativeToManagedMap[__Instance] = this;
             var __arg0 = reloadModuleFunc == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(reloadModuleFunc);
             var __arg1 = unloadModuleFunc == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(unloadModuleFunc);
-            __Internal.ctor_0((__Instance + __PointerAdjustment), __arg0, __arg1);
+            fixed (__Internal* __instancePtr = &__instance)
+            {
+                __Internal.ctor_0(new global::System.IntPtr(__instancePtr), __arg0, __arg1);
+            }
         }
 
         public CLoadModuleResult(CLoadModuleResult src)
+            : this()
         {
-            __Instance = Marshal.AllocHGlobal(8);
-            __ownsNativeInstance = true;
-            NativeToManagedMap[__Instance] = this;
-            if (ReferenceEquals(src, null))
-                throw new global::System.ArgumentNullException("src", "Cannot be null because it is a C++ reference (&).");
-            var __arg0 = src.__Instance;
-            __Internal.cctor_1((__Instance + __PointerAdjustment), __arg0);
-        }
-
-        public void Dispose()
-        {
-            Dispose(disposing: true);
-        }
-
-        public virtual void Dispose(bool disposing)
-        {
-            CLoadModuleResult __dummy;
-            NativeToManagedMap.TryRemove(__Instance, out __dummy);
-            if (disposing)
-                __Internal.dtor_0((__Instance + __PointerAdjustment), 0);
-            if (__ownsNativeInstance)
-                Marshal.FreeHGlobal(__Instance);
+            var ____arg0 = src.__Instance;
+            var __arg0 = new global::System.IntPtr(&____arg0);
+            fixed (__Internal* __instancePtr = &__instance)
+            {
+                __Internal.cctor_1(new global::System.IntPtr(__instancePtr), __arg0);
+            }
         }
 
         public void ReloadModuleFunc(ReloadModuleFunc reloadModuleFunc)
         {
             var __arg0 = reloadModuleFunc == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(reloadModuleFunc);
-            __Internal.ReloadModuleFunc_0((__Instance + __PointerAdjustment), __arg0);
+            fixed (__Internal* __instancePtr = &__instance)
+            {
+                __Internal.ReloadModuleFunc_0(new global::System.IntPtr(__instancePtr), __arg0);
+            }
         }
 
         public ReloadModuleFunc ReloadModuleFunc()
         {
-            var __ret = __Internal.ReloadModuleFunc_1((__Instance + __PointerAdjustment));
-            var __ptr0 = __ret;
-            return (ReloadModuleFunc)Marshal.GetDelegateForFunctionPointer(__ptr0, typeof(ReloadModuleFunc));
+            fixed (__Internal* __instancePtr = &__instance)
+            {
+                var __ret = __Internal.ReloadModuleFunc_1(new global::System.IntPtr(__instancePtr));
+                var __ptr0 = __ret;
+                return (ReloadModuleFunc)Marshal.GetDelegateForFunctionPointer(__ptr0, typeof(ReloadModuleFunc));
+            }
         }
 
         public void UnloadModuleFunc(UnloadModuleFunc unloadModuleFunc)
         {
             var __arg0 = unloadModuleFunc == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(unloadModuleFunc);
-            __Internal.UnloadModuleFunc_0((__Instance + __PointerAdjustment), __arg0);
+            fixed (__Internal* __instancePtr = &__instance)
+            {
+                __Internal.UnloadModuleFunc_0(new global::System.IntPtr(__instancePtr), __arg0);
+            }
         }
 
         public UnloadModuleFunc UnloadModuleFunc()
         {
-            var __ret = __Internal.UnloadModuleFunc_1((__Instance + __PointerAdjustment));
-            var __ptr0 = __ret;
-            return (UnloadModuleFunc)Marshal.GetDelegateForFunctionPointer(__ptr0, typeof(UnloadModuleFunc));
+            fixed (__Internal* __instancePtr = &__instance)
+            {
+                var __ret = __Internal.UnloadModuleFunc_1(new global::System.IntPtr(__instancePtr));
+                var __ptr0 = __ret;
+                return (UnloadModuleFunc)Marshal.GetDelegateForFunctionPointer(__ptr0, typeof(UnloadModuleFunc));
+            }
         }
     }
 
     public enum ModuleType
     {
-        MTNotValid = 0,
-        MTManaged = 1,
-        MTUnmanaged = 2
+        MT_NotValid = 0,
+        MT_Managed = 1,
+        MT_Unmanaged = 2
     }
 
     public enum ArchType
     {
-        ATNotValid = 0,
-        ATX86 = 1,
-        ATX64 = 2,
-        ATAll = 3
+        AT_NotValid = 0,
+        AT_x86 = 1,
+        AT_x64 = 2,
+        AT_All = 3
     }
 
     public enum OperatingSystem
     {
-        OSNotValid = 0,
-        OSWindows = 1,
-        OSMac = 2,
-        OSLinux = 3,
-        OSAll = 4
+        OS_NotValid = 0,
+        OS_Windows = 1,
+        OS_Mac = 2,
+        OS_Linux = 3,
+        OS_All = 4
     }
 
     /// <summary>
@@ -1122,13 +1114,13 @@ namespace CppPlug
     [Flags]
     public enum ModuleDependencyVersionType
     {
-        MDVTAny = 0,
+        MDVT_Any = 0,
         /// <summary>Any version of the module can be used</summary>
-        MDVTCheckMajor = 1,
+        MDVT_CheckMajor = 1,
         /// <summary>Only the versions with the same major release number can be used</summary>
-        MDVTCheckMinor = 2,
+        MDVT_CheckMinor = 2,
         /// <summary>Only the versions with the same minor release number can be used</summary>
-        MDVTCheckPatch = 4
+        MDVT_CheckPatch = 4
     }
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointerAttribute(global::System.Runtime.InteropServices.CallingConvention.Cdecl)]
@@ -1178,7 +1170,7 @@ namespace CppPlug
     /// </summary>
     public unsafe partial class PluginInfo : IDisposable
     {
-        [StructLayout(LayoutKind.Explicit, Size = 32)]
+        [StructLayout(LayoutKind.Explicit, Size = 36)]
         public partial struct __Internal
         {
             [FieldOffset(0)]
@@ -1205,9 +1197,12 @@ namespace CppPlug
             [FieldOffset(28)]
             public global::System.IntPtr _reserved_module;
 
+            [FieldOffset(32)]
+            public global::System.IntPtr _reserved_cppCreatePluginFunc;
+
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "??0PluginInfo@@QAE@ABU0@@Z")]
+                EntryPoint="??0PluginInfo@@QAE@ABU0@@Z")]
             internal static extern global::System.IntPtr cctor_1(global::System.IntPtr instance, global::System.IntPtr _0);
         }
 
@@ -1231,8 +1226,8 @@ namespace CppPlug
 
         private static void* __CopyValue(PluginInfo.__Internal native)
         {
-            var ret = Marshal.AllocHGlobal(32);
-            *(PluginInfo.__Internal*)ret = native;
+            var ret = Marshal.AllocHGlobal(36);
+            *(PluginInfo.__Internal*) ret = native;
             return ret.ToPointer();
         }
 
@@ -1252,17 +1247,17 @@ namespace CppPlug
 
         public PluginInfo()
         {
-            __Instance = Marshal.AllocHGlobal(32);
+            __Instance = Marshal.AllocHGlobal(36);
             __ownsNativeInstance = true;
             NativeToManagedMap[__Instance] = this;
         }
 
         public PluginInfo(PluginInfo _0)
         {
-            __Instance = Marshal.AllocHGlobal(32);
+            __Instance = Marshal.AllocHGlobal(36);
             __ownsNativeInstance = true;
             NativeToManagedMap[__Instance] = this;
-            *((PluginInfo.__Internal*)__Instance) = *((PluginInfo.__Internal*)_0.__Instance);
+            *((PluginInfo.__Internal*) __Instance) = *((PluginInfo.__Internal*) _0.__Instance);
         }
 
         public void Dispose()
@@ -1278,29 +1273,29 @@ namespace CppPlug
                 Marshal.FreeHGlobal(__Instance);
         }
 
-        public sbyte* Name
+        public char* Name
         {
             get
             {
-                return (sbyte*)((__Internal*)__Instance)->_name;
+                return (char*) ((__Internal*) __Instance)->_name;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_name = (global::System.IntPtr)value;
+                ((__Internal*) __Instance)->_name = (global::System.IntPtr) (sbyte*) value;
             }
         }
 
-        public sbyte* Service
+        public char* Service
         {
             get
             {
-                return (sbyte*)((__Internal*)__Instance)->_service;
+                return (char*) ((__Internal*) __Instance)->_service;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_service = (global::System.IntPtr)value;
+                ((__Internal*) __Instance)->_service = (global::System.IntPtr) (sbyte*) value;
             }
         }
 
@@ -1308,13 +1303,13 @@ namespace CppPlug
         {
             get
             {
-                var __ptr0 = ((__Internal*)__Instance)->_createPluginFunc;
+                var __ptr0 = ((__Internal*) __Instance)->_createPluginFunc;
                 return (CreatePluginFunc)Marshal.GetDelegateForFunctionPointer(__ptr0, typeof(CreatePluginFunc));
             }
 
             set
             {
-                ((__Internal*)__Instance)->_createPluginFunc = value == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(value);
+                ((__Internal*) __Instance)->_createPluginFunc = value == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(value);
             }
         }
 
@@ -1322,13 +1317,13 @@ namespace CppPlug
         {
             get
             {
-                var __ptr0 = ((__Internal*)__Instance)->_destroyPluginFunc;
+                var __ptr0 = ((__Internal*) __Instance)->_destroyPluginFunc;
                 return (DestroyPluginFunc)Marshal.GetDelegateForFunctionPointer(__ptr0, typeof(DestroyPluginFunc));
             }
 
             set
             {
-                ((__Internal*)__Instance)->_destroyPluginFunc = value == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(value);
+                ((__Internal*) __Instance)->_destroyPluginFunc = value == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(value);
             }
         }
 
@@ -1336,13 +1331,13 @@ namespace CppPlug
         {
             get
             {
-                var __ptr0 = ((__Internal*)__Instance)->_onMessagePluginFunc;
+                var __ptr0 = ((__Internal*) __Instance)->_onMessagePluginFunc;
                 return (OnMessagePluginFunc)Marshal.GetDelegateForFunctionPointer(__ptr0, typeof(OnMessagePluginFunc));
             }
 
             set
             {
-                ((__Internal*)__Instance)->_onMessagePluginFunc = value == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(value);
+                ((__Internal*) __Instance)->_onMessagePluginFunc = value == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(value);
             }
         }
 
@@ -1350,13 +1345,13 @@ namespace CppPlug
         {
             get
             {
-                var __ptr0 = ((__Internal*)__Instance)->_saveDataForPluginReloadFunc;
+                var __ptr0 = ((__Internal*) __Instance)->_saveDataForPluginReloadFunc;
                 return (SaveDataForPluginReloadFunc)Marshal.GetDelegateForFunctionPointer(__ptr0, typeof(SaveDataForPluginReloadFunc));
             }
 
             set
             {
-                ((__Internal*)__Instance)->_saveDataForPluginReloadFunc = value == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(value);
+                ((__Internal*) __Instance)->_saveDataForPluginReloadFunc = value == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(value);
             }
         }
 
@@ -1364,13 +1359,13 @@ namespace CppPlug
         {
             get
             {
-                var __ptr0 = ((__Internal*)__Instance)->_loadDataAfterPluginReloadFunc;
+                var __ptr0 = ((__Internal*) __Instance)->_loadDataAfterPluginReloadFunc;
                 return (LoadDataAfterPluginReloadFunc)Marshal.GetDelegateForFunctionPointer(__ptr0, typeof(LoadDataAfterPluginReloadFunc));
             }
 
             set
             {
-                ((__Internal*)__Instance)->_loadDataAfterPluginReloadFunc = value == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(value);
+                ((__Internal*) __Instance)->_loadDataAfterPluginReloadFunc = value == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(value);
             }
         }
 
@@ -1378,12 +1373,25 @@ namespace CppPlug
         {
             get
             {
-                return ((__Internal*)__Instance)->_reserved_module;
+                return ((__Internal*) __Instance)->_reserved_module;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_reserved_module = (global::System.IntPtr)value;
+                ((__Internal*) __Instance)->_reserved_module = (global::System.IntPtr) value;
+            }
+        }
+
+        public global::System.IntPtr ReservedCppCreatePluginFunc
+        {
+            get
+            {
+                return ((__Internal*) __Instance)->_reserved_cppCreatePluginFunc;
+            }
+
+            set
+            {
+                ((__Internal*) __Instance)->_reserved_cppCreatePluginFunc = (global::System.IntPtr) value;
             }
         }
     }
@@ -1404,7 +1412,7 @@ namespace CppPlug
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "??0CreatedPlugin@@QAE@ABU0@@Z")]
+                EntryPoint="??0CreatedPlugin@@QAE@ABU0@@Z")]
             internal static extern global::System.IntPtr cctor_1(global::System.IntPtr instance, global::System.IntPtr _0);
         }
 
@@ -1429,7 +1437,7 @@ namespace CppPlug
         private static void* __CopyValue(CreatedPlugin.__Internal native)
         {
             var ret = Marshal.AllocHGlobal(12);
-            *(CreatedPlugin.__Internal*)ret = native;
+            *(CreatedPlugin.__Internal*) ret = native;
             return ret.ToPointer();
         }
 
@@ -1459,7 +1467,7 @@ namespace CppPlug
             __Instance = Marshal.AllocHGlobal(12);
             __ownsNativeInstance = true;
             NativeToManagedMap[__Instance] = this;
-            *((CreatedPlugin.__Internal*)__Instance) = *((CreatedPlugin.__Internal*)_0.__Instance);
+            *((CreatedPlugin.__Internal*) __Instance) = *((CreatedPlugin.__Internal*) _0.__Instance);
         }
 
         public void Dispose()
@@ -1479,12 +1487,12 @@ namespace CppPlug
         {
             get
             {
-                return ((__Internal*)__Instance)->_reserved_plugin;
+                return ((__Internal*) __Instance)->_reserved_plugin;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_reserved_plugin = (global::System.IntPtr)value;
+                ((__Internal*) __Instance)->_reserved_plugin = (global::System.IntPtr) value;
             }
         }
 
@@ -1493,16 +1501,16 @@ namespace CppPlug
             get
             {
                 ModuleInfo __result0;
-                if (((__Internal*)__Instance)->_reserved_module_info == IntPtr.Zero) __result0 = null;
-                else if (ModuleInfo.NativeToManagedMap.ContainsKey(((__Internal*)__Instance)->_reserved_module_info))
-                    __result0 = (ModuleInfo)ModuleInfo.NativeToManagedMap[((__Internal*)__Instance)->_reserved_module_info];
-                else __result0 = ModuleInfo.__CreateInstance(((__Internal*)__Instance)->_reserved_module_info);
+                if (((__Internal*) __Instance)->_reserved_module_info == IntPtr.Zero) __result0 = null;
+                else if (ModuleInfo.NativeToManagedMap.ContainsKey(((__Internal*) __Instance)->_reserved_module_info))
+                    __result0 = (ModuleInfo) ModuleInfo.NativeToManagedMap[((__Internal*) __Instance)->_reserved_module_info];
+                else __result0 = ModuleInfo.__CreateInstance(((__Internal*) __Instance)->_reserved_module_info);
                 return __result0;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_reserved_module_info = ReferenceEquals(value, null) ? global::System.IntPtr.Zero : value.__Instance;
+                ((__Internal*) __Instance)->_reserved_module_info = ReferenceEquals(value, null) ? global::System.IntPtr.Zero : value.__Instance;
             }
         }
 
@@ -1511,16 +1519,16 @@ namespace CppPlug
             get
             {
                 PluginInfo __result0;
-                if (((__Internal*)__Instance)->_reserved_plugin_info == IntPtr.Zero) __result0 = null;
-                else if (PluginInfo.NativeToManagedMap.ContainsKey(((__Internal*)__Instance)->_reserved_plugin_info))
-                    __result0 = (PluginInfo)PluginInfo.NativeToManagedMap[((__Internal*)__Instance)->_reserved_plugin_info];
-                else __result0 = PluginInfo.__CreateInstance(((__Internal*)__Instance)->_reserved_plugin_info);
+                if (((__Internal*) __Instance)->_reserved_plugin_info == IntPtr.Zero) __result0 = null;
+                else if (PluginInfo.NativeToManagedMap.ContainsKey(((__Internal*) __Instance)->_reserved_plugin_info))
+                    __result0 = (PluginInfo) PluginInfo.NativeToManagedMap[((__Internal*) __Instance)->_reserved_plugin_info];
+                else __result0 = PluginInfo.__CreateInstance(((__Internal*) __Instance)->_reserved_plugin_info);
                 return __result0;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_reserved_plugin_info = ReferenceEquals(value, null) ? global::System.IntPtr.Zero : value.__Instance;
+                ((__Internal*) __Instance)->_reserved_plugin_info = ReferenceEquals(value, null) ? global::System.IntPtr.Zero : value.__Instance;
             }
         }
     }
@@ -1547,7 +1555,7 @@ namespace CppPlug
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "??0ModuleDependencyInfo@@QAE@ABU0@@Z")]
+                EntryPoint="??0ModuleDependencyInfo@@QAE@ABU0@@Z")]
             internal static extern global::System.IntPtr cctor_1(global::System.IntPtr instance, global::System.IntPtr _0);
         }
 
@@ -1572,7 +1580,7 @@ namespace CppPlug
         private static void* __CopyValue(ModuleDependencyInfo.__Internal native)
         {
             var ret = Marshal.AllocHGlobal(20);
-            *(ModuleDependencyInfo.__Internal*)ret = native;
+            *(ModuleDependencyInfo.__Internal*) ret = native;
             return ret.ToPointer();
         }
 
@@ -1602,7 +1610,7 @@ namespace CppPlug
             __Instance = Marshal.AllocHGlobal(20);
             __ownsNativeInstance = true;
             NativeToManagedMap[__Instance] = this;
-            *((ModuleDependencyInfo.__Internal*)__Instance) = *((ModuleDependencyInfo.__Internal*)_0.__Instance);
+            *((ModuleDependencyInfo.__Internal*) __Instance) = *((ModuleDependencyInfo.__Internal*) _0.__Instance);
         }
 
         public void Dispose()
@@ -1618,16 +1626,16 @@ namespace CppPlug
                 Marshal.FreeHGlobal(__Instance);
         }
 
-        public sbyte* Name
+        public char* Name
         {
             get
             {
-                return (sbyte*)((__Internal*)__Instance)->_name;
+                return (char*) ((__Internal*) __Instance)->_name;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_name = (global::System.IntPtr)value;
+                ((__Internal*) __Instance)->_name = (global::System.IntPtr) (sbyte*) value;
             }
         }
 
@@ -1635,12 +1643,12 @@ namespace CppPlug
         {
             get
             {
-                return ((__Internal*)__Instance)->_versionMajor;
+                return ((__Internal*) __Instance)->_versionMajor;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_versionMajor = value;
+                ((__Internal*) __Instance)->_versionMajor = value;
             }
         }
 
@@ -1648,12 +1656,12 @@ namespace CppPlug
         {
             get
             {
-                return ((__Internal*)__Instance)->_versionMinor;
+                return ((__Internal*) __Instance)->_versionMinor;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_versionMinor = value;
+                ((__Internal*) __Instance)->_versionMinor = value;
             }
         }
 
@@ -1661,12 +1669,12 @@ namespace CppPlug
         {
             get
             {
-                return ((__Internal*)__Instance)->_versionPatch;
+                return ((__Internal*) __Instance)->_versionPatch;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_versionPatch = value;
+                ((__Internal*) __Instance)->_versionPatch = value;
             }
         }
 
@@ -1674,12 +1682,12 @@ namespace CppPlug
         {
             get
             {
-                return ((__Internal*)__Instance)->_versionDependencyFlag;
+                return ((__Internal*) __Instance)->_versionDependencyFlag;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_versionDependencyFlag = value;
+                ((__Internal*) __Instance)->_versionDependencyFlag = value;
             }
         }
     }
@@ -1727,7 +1735,7 @@ namespace CppPlug
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "??0ModuleBinaryInfo@@QAE@ABU0@@Z")]
+                EntryPoint="??0ModuleBinaryInfo@@QAE@ABU0@@Z")]
             internal static extern global::System.IntPtr cctor_1(global::System.IntPtr instance, global::System.IntPtr _0);
         }
 
@@ -1752,7 +1760,7 @@ namespace CppPlug
         private static void* __CopyValue(ModuleBinaryInfo.__Internal native)
         {
             var ret = Marshal.AllocHGlobal(48);
-            *(ModuleBinaryInfo.__Internal*)ret = native;
+            *(ModuleBinaryInfo.__Internal*) ret = native;
             return ret.ToPointer();
         }
 
@@ -1782,7 +1790,7 @@ namespace CppPlug
             __Instance = Marshal.AllocHGlobal(48);
             __ownsNativeInstance = true;
             NativeToManagedMap[__Instance] = this;
-            *((ModuleBinaryInfo.__Internal*)__Instance) = *((ModuleBinaryInfo.__Internal*)_0.__Instance);
+            *((ModuleBinaryInfo.__Internal*) __Instance) = *((ModuleBinaryInfo.__Internal*) _0.__Instance);
         }
 
         public void Dispose()
@@ -1798,16 +1806,16 @@ namespace CppPlug
                 Marshal.FreeHGlobal(__Instance);
         }
 
-        public sbyte* Path
+        public char* Path
         {
             get
             {
-                return (sbyte*)((__Internal*)__Instance)->_path;
+                return (char*) ((__Internal*) __Instance)->_path;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_path = (global::System.IntPtr)value;
+                ((__Internal*) __Instance)->_path = (global::System.IntPtr) (sbyte*) value;
             }
         }
 
@@ -1815,12 +1823,12 @@ namespace CppPlug
         {
             get
             {
-                return ((__Internal*)__Instance)->_archType;
+                return ((__Internal*) __Instance)->_archType;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_archType = value;
+                ((__Internal*) __Instance)->_archType = value;
             }
         }
 
@@ -1828,12 +1836,12 @@ namespace CppPlug
         {
             get
             {
-                return ((__Internal*)__Instance)->_os;
+                return ((__Internal*) __Instance)->_os;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_os = value;
+                ((__Internal*) __Instance)->_os = value;
             }
         }
 
@@ -1841,116 +1849,116 @@ namespace CppPlug
         {
             get
             {
-                return ((__Internal*)__Instance)->_autoCompile != 0;
+                return ((__Internal*) __Instance)->_autoCompile != 0;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_autoCompile = (byte)(value ? 1 : 0);
+                ((__Internal*) __Instance)->_autoCompile = (byte) (value ? 1 : 0);
             }
         }
 
-        public sbyte* EntryPointNamespace
+        public char* EntryPointNamespace
         {
             get
             {
-                return (sbyte*)((__Internal*)__Instance)->_entryPointNamespace;
+                return (char*) ((__Internal*) __Instance)->_entryPointNamespace;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_entryPointNamespace = (global::System.IntPtr)value;
+                ((__Internal*) __Instance)->_entryPointNamespace = (global::System.IntPtr) (sbyte*) value;
             }
         }
 
-        public sbyte* EntryPointClass
+        public char* EntryPointClass
         {
             get
             {
-                return (sbyte*)((__Internal*)__Instance)->_entryPointClass;
+                return (char*) ((__Internal*) __Instance)->_entryPointClass;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_entryPointClass = (global::System.IntPtr)value;
+                ((__Internal*) __Instance)->_entryPointClass = (global::System.IntPtr) (sbyte*) value;
             }
         }
 
-        public sbyte* CompileCommand
+        public char* CompileCommand
         {
             get
             {
-                return (sbyte*)((__Internal*)__Instance)->_compileCommand;
+                return (char*) ((__Internal*) __Instance)->_compileCommand;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_compileCommand = (global::System.IntPtr)value;
+                ((__Internal*) __Instance)->_compileCommand = (global::System.IntPtr) (sbyte*) value;
             }
         }
 
-        public sbyte* SourceFiles
+        public char* SourceFiles
         {
             get
             {
-                return (sbyte*)((__Internal*)__Instance)->_sourceFiles;
+                return (char*) ((__Internal*) __Instance)->_sourceFiles;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_sourceFiles = (global::System.IntPtr)value;
+                ((__Internal*) __Instance)->_sourceFiles = (global::System.IntPtr) (sbyte*) value;
             }
         }
 
-        public sbyte* Compiler
+        public char* Compiler
         {
             get
             {
-                return (sbyte*)((__Internal*)__Instance)->_compiler;
+                return (char*) ((__Internal*) __Instance)->_compiler;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_compiler = (global::System.IntPtr)value;
+                ((__Internal*) __Instance)->_compiler = (global::System.IntPtr) (sbyte*) value;
             }
         }
 
-        public sbyte* CompilerArgs
+        public char* CompilerArgs
         {
             get
             {
-                return (sbyte*)((__Internal*)__Instance)->_compilerArgs;
+                return (char*) ((__Internal*) __Instance)->_compilerArgs;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_compilerArgs = (global::System.IntPtr)value;
+                ((__Internal*) __Instance)->_compilerArgs = (global::System.IntPtr) (sbyte*) value;
             }
         }
 
-        public sbyte* Linker
+        public char* Linker
         {
             get
             {
-                return (sbyte*)((__Internal*)__Instance)->_linker;
+                return (char*) ((__Internal*) __Instance)->_linker;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_linker = (global::System.IntPtr)value;
+                ((__Internal*) __Instance)->_linker = (global::System.IntPtr) (sbyte*) value;
             }
         }
 
-        public sbyte* LinkerArgs
+        public char* LinkerArgs
         {
             get
             {
-                return (sbyte*)((__Internal*)__Instance)->_linkerArgs;
+                return (char*) ((__Internal*) __Instance)->_linkerArgs;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_linkerArgs = (global::System.IntPtr)value;
+                ((__Internal*) __Instance)->_linkerArgs = (global::System.IntPtr) (sbyte*) value;
             }
         }
     }
@@ -2028,7 +2036,7 @@ namespace CppPlug
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "??0ModuleInfo@@QAE@ABU0@@Z")]
+                EntryPoint="??0ModuleInfo@@QAE@ABU0@@Z")]
             internal static extern global::System.IntPtr cctor_1(global::System.IntPtr instance, global::System.IntPtr _0);
         }
 
@@ -2053,7 +2061,7 @@ namespace CppPlug
         private static void* __CopyValue(ModuleInfo.__Internal native)
         {
             var ret = Marshal.AllocHGlobal(88);
-            *(ModuleInfo.__Internal*)ret = native;
+            *(ModuleInfo.__Internal*) ret = native;
             return ret.ToPointer();
         }
 
@@ -2083,7 +2091,7 @@ namespace CppPlug
             __Instance = Marshal.AllocHGlobal(88);
             __ownsNativeInstance = true;
             NativeToManagedMap[__Instance] = this;
-            *((ModuleInfo.__Internal*)__Instance) = *((ModuleInfo.__Internal*)_0.__Instance);
+            *((ModuleInfo.__Internal*) __Instance) = *((ModuleInfo.__Internal*) _0.__Instance);
         }
 
         public void Dispose()
@@ -2099,16 +2107,16 @@ namespace CppPlug
                 Marshal.FreeHGlobal(__Instance);
         }
 
-        public sbyte* Name
+        public char* Name
         {
             get
             {
-                return (sbyte*)((__Internal*)__Instance)->_name;
+                return (char*) ((__Internal*) __Instance)->_name;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_name = (global::System.IntPtr)value;
+                ((__Internal*) __Instance)->_name = (global::System.IntPtr) (sbyte*) value;
             }
         }
 
@@ -2116,12 +2124,12 @@ namespace CppPlug
         {
             get
             {
-                return ((__Internal*)__Instance)->_moduleType;
+                return ((__Internal*) __Instance)->_moduleType;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_moduleType = value;
+                ((__Internal*) __Instance)->_moduleType = value;
             }
         }
 
@@ -2130,16 +2138,16 @@ namespace CppPlug
             get
             {
                 ModuleBinaryInfo __result0;
-                if (((__Internal*)__Instance)->_binaries == IntPtr.Zero) __result0 = null;
-                else if (ModuleBinaryInfo.NativeToManagedMap.ContainsKey(((__Internal*)__Instance)->_binaries))
-                    __result0 = (ModuleBinaryInfo)ModuleBinaryInfo.NativeToManagedMap[((__Internal*)__Instance)->_binaries];
-                else __result0 = ModuleBinaryInfo.__CreateInstance(((__Internal*)__Instance)->_binaries);
+                if (((__Internal*) __Instance)->_binaries == IntPtr.Zero) __result0 = null;
+                else if (ModuleBinaryInfo.NativeToManagedMap.ContainsKey(((__Internal*) __Instance)->_binaries))
+                    __result0 = (ModuleBinaryInfo) ModuleBinaryInfo.NativeToManagedMap[((__Internal*) __Instance)->_binaries];
+                else __result0 = ModuleBinaryInfo.__CreateInstance(((__Internal*) __Instance)->_binaries);
                 return __result0;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_binaries = ReferenceEquals(value, null) ? global::System.IntPtr.Zero : value.__Instance;
+                ((__Internal*) __Instance)->_binaries = ReferenceEquals(value, null) ? global::System.IntPtr.Zero : value.__Instance;
             }
         }
 
@@ -2147,77 +2155,77 @@ namespace CppPlug
         {
             get
             {
-                return ((__Internal*)__Instance)->_binariesCount;
+                return ((__Internal*) __Instance)->_binariesCount;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_binariesCount = value;
+                ((__Internal*) __Instance)->_binariesCount = value;
             }
         }
 
-        public sbyte* Description
+        public char* Description
         {
             get
             {
-                return (sbyte*)((__Internal*)__Instance)->_description;
+                return (char*) ((__Internal*) __Instance)->_description;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_description = (global::System.IntPtr)value;
+                ((__Internal*) __Instance)->_description = (global::System.IntPtr) (sbyte*) value;
             }
         }
 
-        public sbyte* Author
+        public char* Author
         {
             get
             {
-                return (sbyte*)((__Internal*)__Instance)->_author;
+                return (char*) ((__Internal*) __Instance)->_author;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_author = (global::System.IntPtr)value;
+                ((__Internal*) __Instance)->_author = (global::System.IntPtr) (sbyte*) value;
             }
         }
 
-        public sbyte* Website
+        public char* Website
         {
             get
             {
-                return (sbyte*)((__Internal*)__Instance)->_website;
+                return (char*) ((__Internal*) __Instance)->_website;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_website = (global::System.IntPtr)value;
+                ((__Internal*) __Instance)->_website = (global::System.IntPtr) (sbyte*) value;
             }
         }
 
-        public sbyte* Issues
+        public char* Issues
         {
             get
             {
-                return (sbyte*)((__Internal*)__Instance)->_issues;
+                return (char*) ((__Internal*) __Instance)->_issues;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_issues = (global::System.IntPtr)value;
+                ((__Internal*) __Instance)->_issues = (global::System.IntPtr) (sbyte*) value;
             }
         }
 
-        public sbyte* License
+        public char* License
         {
             get
             {
-                return (sbyte*)((__Internal*)__Instance)->_license;
+                return (char*) ((__Internal*) __Instance)->_license;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_license = (global::System.IntPtr)value;
+                ((__Internal*) __Instance)->_license = (global::System.IntPtr) (sbyte*) value;
             }
         }
 
@@ -2226,16 +2234,16 @@ namespace CppPlug
             get
             {
                 ModuleDependencyInfo __result0;
-                if (((__Internal*)__Instance)->_dependencies == IntPtr.Zero) __result0 = null;
-                else if (ModuleDependencyInfo.NativeToManagedMap.ContainsKey(((__Internal*)__Instance)->_dependencies))
-                    __result0 = (ModuleDependencyInfo)ModuleDependencyInfo.NativeToManagedMap[((__Internal*)__Instance)->_dependencies];
-                else __result0 = ModuleDependencyInfo.__CreateInstance(((__Internal*)__Instance)->_dependencies);
+                if (((__Internal*) __Instance)->_dependencies == IntPtr.Zero) __result0 = null;
+                else if (ModuleDependencyInfo.NativeToManagedMap.ContainsKey(((__Internal*) __Instance)->_dependencies))
+                    __result0 = (ModuleDependencyInfo) ModuleDependencyInfo.NativeToManagedMap[((__Internal*) __Instance)->_dependencies];
+                else __result0 = ModuleDependencyInfo.__CreateInstance(((__Internal*) __Instance)->_dependencies);
                 return __result0;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_dependencies = ReferenceEquals(value, null) ? global::System.IntPtr.Zero : value.__Instance;
+                ((__Internal*) __Instance)->_dependencies = ReferenceEquals(value, null) ? global::System.IntPtr.Zero : value.__Instance;
             }
         }
 
@@ -2243,12 +2251,12 @@ namespace CppPlug
         {
             get
             {
-                return ((__Internal*)__Instance)->_dependenciesCount;
+                return ((__Internal*) __Instance)->_dependenciesCount;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_dependenciesCount = value;
+                ((__Internal*) __Instance)->_dependenciesCount = value;
             }
         }
 
@@ -2256,12 +2264,12 @@ namespace CppPlug
         {
             get
             {
-                return ((__Internal*)__Instance)->_versionMajor;
+                return ((__Internal*) __Instance)->_versionMajor;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_versionMajor = value;
+                ((__Internal*) __Instance)->_versionMajor = value;
             }
         }
 
@@ -2269,12 +2277,12 @@ namespace CppPlug
         {
             get
             {
-                return ((__Internal*)__Instance)->_versionMinor;
+                return ((__Internal*) __Instance)->_versionMinor;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_versionMinor = value;
+                ((__Internal*) __Instance)->_versionMinor = value;
             }
         }
 
@@ -2282,12 +2290,12 @@ namespace CppPlug
         {
             get
             {
-                return ((__Internal*)__Instance)->_versionPatch;
+                return ((__Internal*) __Instance)->_versionPatch;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_versionPatch = value;
+                ((__Internal*) __Instance)->_versionPatch = value;
             }
         }
 
@@ -2295,12 +2303,12 @@ namespace CppPlug
         {
             get
             {
-                return ((__Internal*)__Instance)->_reserved_module;
+                return ((__Internal*) __Instance)->_reserved_module;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_reserved_module = (global::System.IntPtr)value;
+                ((__Internal*) __Instance)->_reserved_module = (global::System.IntPtr) value;
             }
         }
 
@@ -2308,13 +2316,13 @@ namespace CppPlug
         {
             get
             {
-                var __ptr0 = ((__Internal*)__Instance)->_reserved_createPluginFunc;
+                var __ptr0 = ((__Internal*) __Instance)->_reserved_createPluginFunc;
                 return (ModuleCreatePluginFunc)Marshal.GetDelegateForFunctionPointer(__ptr0, typeof(ModuleCreatePluginFunc));
             }
 
             set
             {
-                ((__Internal*)__Instance)->_reserved_createPluginFunc = value == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(value);
+                ((__Internal*) __Instance)->_reserved_createPluginFunc = value == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(value);
             }
         }
 
@@ -2322,13 +2330,13 @@ namespace CppPlug
         {
             get
             {
-                var __ptr0 = ((__Internal*)__Instance)->_reserved_destroyPluginFunc;
+                var __ptr0 = ((__Internal*) __Instance)->_reserved_destroyPluginFunc;
                 return (ModuleDestroyPluginFunc)Marshal.GetDelegateForFunctionPointer(__ptr0, typeof(ModuleDestroyPluginFunc));
             }
 
             set
             {
-                ((__Internal*)__Instance)->_reserved_destroyPluginFunc = value == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(value);
+                ((__Internal*) __Instance)->_reserved_destroyPluginFunc = value == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(value);
             }
         }
 
@@ -2336,13 +2344,13 @@ namespace CppPlug
         {
             get
             {
-                var __ptr0 = ((__Internal*)__Instance)->_reserved_sendMessageToPluginFunc;
+                var __ptr0 = ((__Internal*) __Instance)->_reserved_sendMessageToPluginFunc;
                 return (ModuleSendMessageToPluginFunc)Marshal.GetDelegateForFunctionPointer(__ptr0, typeof(ModuleSendMessageToPluginFunc));
             }
 
             set
             {
-                ((__Internal*)__Instance)->_reserved_sendMessageToPluginFunc = value == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(value);
+                ((__Internal*) __Instance)->_reserved_sendMessageToPluginFunc = value == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(value);
             }
         }
 
@@ -2351,16 +2359,16 @@ namespace CppPlug
             get
             {
                 PluginInfo __result0;
-                if (((__Internal*)__Instance)->_reserved_registeredPlugins == IntPtr.Zero) __result0 = null;
-                else if (PluginInfo.NativeToManagedMap.ContainsKey(((__Internal*)__Instance)->_reserved_registeredPlugins))
-                    __result0 = (PluginInfo)PluginInfo.NativeToManagedMap[((__Internal*)__Instance)->_reserved_registeredPlugins];
-                else __result0 = PluginInfo.__CreateInstance(((__Internal*)__Instance)->_reserved_registeredPlugins);
+                if (((__Internal*) __Instance)->_reserved_registeredPlugins == IntPtr.Zero) __result0 = null;
+                else if (PluginInfo.NativeToManagedMap.ContainsKey(((__Internal*) __Instance)->_reserved_registeredPlugins))
+                    __result0 = (PluginInfo) PluginInfo.NativeToManagedMap[((__Internal*) __Instance)->_reserved_registeredPlugins];
+                else __result0 = PluginInfo.__CreateInstance(((__Internal*) __Instance)->_reserved_registeredPlugins);
                 return __result0;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_reserved_registeredPlugins = ReferenceEquals(value, null) ? global::System.IntPtr.Zero : value.__Instance;
+                ((__Internal*) __Instance)->_reserved_registeredPlugins = ReferenceEquals(value, null) ? global::System.IntPtr.Zero : value.__Instance;
             }
         }
 
@@ -2368,12 +2376,12 @@ namespace CppPlug
         {
             get
             {
-                return ((__Internal*)__Instance)->_reserved_registeredPluginsCount;
+                return ((__Internal*) __Instance)->_reserved_registeredPluginsCount;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_reserved_registeredPluginsCount = value;
+                ((__Internal*) __Instance)->_reserved_registeredPluginsCount = value;
             }
         }
 
@@ -2382,16 +2390,16 @@ namespace CppPlug
             get
             {
                 ModuleInfo __result0;
-                if (((__Internal*)__Instance)->_reserved_dependencies == IntPtr.Zero) __result0 = null;
-                else if (ModuleInfo.NativeToManagedMap.ContainsKey(((__Internal*)__Instance)->_reserved_dependencies))
-                    __result0 = (ModuleInfo)ModuleInfo.NativeToManagedMap[((__Internal*)__Instance)->_reserved_dependencies];
-                else __result0 = ModuleInfo.__CreateInstance(((__Internal*)__Instance)->_reserved_dependencies);
+                if (((__Internal*) __Instance)->_reserved_dependencies == IntPtr.Zero) __result0 = null;
+                else if (ModuleInfo.NativeToManagedMap.ContainsKey(((__Internal*) __Instance)->_reserved_dependencies))
+                    __result0 = (ModuleInfo) ModuleInfo.NativeToManagedMap[((__Internal*) __Instance)->_reserved_dependencies];
+                else __result0 = ModuleInfo.__CreateInstance(((__Internal*) __Instance)->_reserved_dependencies);
                 return __result0;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_reserved_dependencies = ReferenceEquals(value, null) ? global::System.IntPtr.Zero : value.__Instance;
+                ((__Internal*) __Instance)->_reserved_dependencies = ReferenceEquals(value, null) ? global::System.IntPtr.Zero : value.__Instance;
             }
         }
 
@@ -2399,12 +2407,12 @@ namespace CppPlug
         {
             get
             {
-                return ((__Internal*)__Instance)->_reserved_dependenciesCount;
+                return ((__Internal*) __Instance)->_reserved_dependenciesCount;
             }
 
             set
             {
-                ((__Internal*)__Instance)->_reserved_dependenciesCount = value;
+                ((__Internal*) __Instance)->_reserved_dependenciesCount = value;
             }
         }
     }
@@ -2422,7 +2430,7 @@ namespace CppPlug
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.ThisCall,
-                EntryPoint = "??0LoadModuleResult@@QAE@ABU0@@Z")]
+                EntryPoint="??0LoadModuleResult@@QAE@ABU0@@Z")]
             internal static extern global::System.IntPtr cctor_1(global::System.IntPtr instance, global::System.IntPtr _0);
         }
 
@@ -2447,7 +2455,7 @@ namespace CppPlug
         private static void* __CopyValue(LoadModuleResult.__Internal native)
         {
             var ret = Marshal.AllocHGlobal(8);
-            *(LoadModuleResult.__Internal*)ret = native;
+            *(LoadModuleResult.__Internal*) ret = native;
             return ret.ToPointer();
         }
 
@@ -2477,7 +2485,7 @@ namespace CppPlug
             __Instance = Marshal.AllocHGlobal(8);
             __ownsNativeInstance = true;
             NativeToManagedMap[__Instance] = this;
-            *((LoadModuleResult.__Internal*)__Instance) = *((LoadModuleResult.__Internal*)_0.__Instance);
+            *((LoadModuleResult.__Internal*) __Instance) = *((LoadModuleResult.__Internal*) _0.__Instance);
         }
 
         public void Dispose()
@@ -2497,13 +2505,13 @@ namespace CppPlug
         {
             get
             {
-                var __ptr0 = ((__Internal*)__Instance)->_unloadModuleFunc;
+                var __ptr0 = ((__Internal*) __Instance)->_unloadModuleFunc;
                 return (UnloadModuleFunc)Marshal.GetDelegateForFunctionPointer(__ptr0, typeof(UnloadModuleFunc));
             }
 
             set
             {
-                ((__Internal*)__Instance)->_unloadModuleFunc = value == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(value);
+                ((__Internal*) __Instance)->_unloadModuleFunc = value == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(value);
             }
         }
 
@@ -2511,13 +2519,13 @@ namespace CppPlug
         {
             get
             {
-                var __ptr0 = ((__Internal*)__Instance)->_reloadModuleFunc;
+                var __ptr0 = ((__Internal*) __Instance)->_reloadModuleFunc;
                 return (ReloadModuleFunc)Marshal.GetDelegateForFunctionPointer(__ptr0, typeof(ReloadModuleFunc));
             }
 
             set
             {
-                ((__Internal*)__Instance)->_reloadModuleFunc = value == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(value);
+                ((__Internal*) __Instance)->_reloadModuleFunc = value == null ? global::System.IntPtr.Zero : Marshal.GetFunctionPointerForDelegate(value);
             }
         }
     }
@@ -2528,249 +2536,249 @@ namespace CppPlug
         {
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "InitializeModuleDependencyInfo")]
+                EntryPoint="InitializeModuleDependencyInfo")]
             internal static extern void InitializeModuleDependencyInfo_0(global::System.IntPtr info);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "DestroyModuleDependencyInfo")]
+                EntryPoint="DestroyModuleDependencyInfo")]
             internal static extern void DestroyModuleDependencyInfo_0(global::System.IntPtr info);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "CopyModuleDependencyInfo")]
+                EntryPoint="CopyModuleDependencyInfo")]
             internal static extern void CopyModuleDependencyInfo_0(global::System.IntPtr dst, global::System.IntPtr src);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "SetModuleDependencyInfoName")]
+                EntryPoint="SetModuleDependencyInfoName")]
             internal static extern void SetModuleDependencyInfoName_0(global::System.IntPtr info, [MarshalAs(UnmanagedType.LPStr)] string value);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "SetModuleDependencyInfoVersion")]
+                EntryPoint="SetModuleDependencyInfoVersion")]
             internal static extern void SetModuleDependencyInfoVersion_0(global::System.IntPtr info, int major, int minor, int patch, int flag);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "InitializeModuleBinaryInfo")]
+                EntryPoint="InitializeModuleBinaryInfo")]
             internal static extern void InitializeModuleBinaryInfo_0(global::System.IntPtr info);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "DestroyModuleBinaryInfo")]
+                EntryPoint="DestroyModuleBinaryInfo")]
             internal static extern void DestroyModuleBinaryInfo_0(global::System.IntPtr info);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "CopyModuleBinaryInfo")]
+                EntryPoint="CopyModuleBinaryInfo")]
             internal static extern void CopyModuleBinaryInfo_0(global::System.IntPtr dst, global::System.IntPtr src);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "SetModuleBinaryInfoPath")]
+                EntryPoint="SetModuleBinaryInfoPath")]
             internal static extern void SetModuleBinaryInfoPath_0(global::System.IntPtr info, [MarshalAs(UnmanagedType.LPStr)] string value);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "SetModuleBinaryInfoOperatingSystem")]
+                EntryPoint="SetModuleBinaryInfoOperatingSystem")]
             internal static extern void SetModuleBinaryInfoOperatingSystem_0(global::System.IntPtr info, OperatingSystem value);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "SetModuleBinaryInfoArchType")]
+                EntryPoint="SetModuleBinaryInfoArchType")]
             internal static extern void SetModuleBinaryInfoArchType_0(global::System.IntPtr info, ArchType value);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "SetModuleBinaryInfoAutoCompile")]
+                EntryPoint="SetModuleBinaryInfoAutoCompile")]
             internal static extern void SetModuleBinaryInfoAutoCompile_0(global::System.IntPtr info, bool value);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "SetModuleBinaryInfoEntryPointNamespace")]
+                EntryPoint="SetModuleBinaryInfoEntryPointNamespace")]
             internal static extern void SetModuleBinaryInfoEntryPointNamespace_0(global::System.IntPtr info, [MarshalAs(UnmanagedType.LPStr)] string value);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "SetModuleBinaryInfoEntryPointClass")]
+                EntryPoint="SetModuleBinaryInfoEntryPointClass")]
             internal static extern void SetModuleBinaryInfoEntryPointClass_0(global::System.IntPtr info, [MarshalAs(UnmanagedType.LPStr)] string value);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "SetModuleBinaryInfoCompileCommand")]
+                EntryPoint="SetModuleBinaryInfoCompileCommand")]
             internal static extern void SetModuleBinaryInfoCompileCommand_0(global::System.IntPtr info, [MarshalAs(UnmanagedType.LPStr)] string value);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "SetModuleBinaryInfoSourceFiles")]
+                EntryPoint="SetModuleBinaryInfoSourceFiles")]
             internal static extern void SetModuleBinaryInfoSourceFiles_0(global::System.IntPtr info, [MarshalAs(UnmanagedType.LPStr)] string value);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "SetModuleBinaryInfoCompiler")]
+                EntryPoint="SetModuleBinaryInfoCompiler")]
             internal static extern void SetModuleBinaryInfoCompiler_0(global::System.IntPtr info, [MarshalAs(UnmanagedType.LPStr)] string value);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "SetModuleBinaryInfoCompilerArgs")]
+                EntryPoint="SetModuleBinaryInfoCompilerArgs")]
             internal static extern void SetModuleBinaryInfoCompilerArgs_0(global::System.IntPtr info, [MarshalAs(UnmanagedType.LPStr)] string value);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "SetModuleBinaryInfoLinker")]
+                EntryPoint="SetModuleBinaryInfoLinker")]
             internal static extern void SetModuleBinaryInfoLinker_0(global::System.IntPtr info, [MarshalAs(UnmanagedType.LPStr)] string value);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "SetModuleBinaryInfoLinkerArgs")]
+                EntryPoint="SetModuleBinaryInfoLinkerArgs")]
             internal static extern void SetModuleBinaryInfoLinkerArgs_0(global::System.IntPtr info, [MarshalAs(UnmanagedType.LPStr)] string value);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "InitializeModuleInfo")]
+                EntryPoint="InitializeModuleInfo")]
             internal static extern void InitializeModuleInfo_0(global::System.IntPtr info);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "DestroyModuleInfo")]
+                EntryPoint="DestroyModuleInfo")]
             internal static extern void DestroyModuleInfo_0(global::System.IntPtr info);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "CopyModuleInfo")]
+                EntryPoint="CopyModuleInfo")]
             internal static extern void CopyModuleInfo_0(global::System.IntPtr dst, global::System.IntPtr src);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "SetModuleInfoName")]
+                EntryPoint="SetModuleInfoName")]
             internal static extern void SetModuleInfoName_0(global::System.IntPtr info, [MarshalAs(UnmanagedType.LPStr)] string value);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "SetModuleInfoModuleType")]
+                EntryPoint="SetModuleInfoModuleType")]
             internal static extern void SetModuleInfoModuleType_0(global::System.IntPtr info, ModuleType value);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "SetModuleInfoBinaries")]
+                EntryPoint="SetModuleInfoBinaries")]
             internal static extern void SetModuleInfoBinaries_0(global::System.IntPtr info, global::System.IntPtr value, int valueCount);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "SetModuleInfoDescription")]
+                EntryPoint="SetModuleInfoDescription")]
             internal static extern void SetModuleInfoDescription_0(global::System.IntPtr info, [MarshalAs(UnmanagedType.LPStr)] string value);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "SetModuleInfoAuthor")]
+                EntryPoint="SetModuleInfoAuthor")]
             internal static extern void SetModuleInfoAuthor_0(global::System.IntPtr info, [MarshalAs(UnmanagedType.LPStr)] string value);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "SetModuleInfoWebsite")]
+                EntryPoint="SetModuleInfoWebsite")]
             internal static extern void SetModuleInfoWebsite_0(global::System.IntPtr info, [MarshalAs(UnmanagedType.LPStr)] string value);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "SetModuleInfoIssues")]
+                EntryPoint="SetModuleInfoIssues")]
             internal static extern void SetModuleInfoIssues_0(global::System.IntPtr info, [MarshalAs(UnmanagedType.LPStr)] string value);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "SetModuleInfoLicense")]
+                EntryPoint="SetModuleInfoLicense")]
             internal static extern void SetModuleInfoLicense_0(global::System.IntPtr info, [MarshalAs(UnmanagedType.LPStr)] string value);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "SetModuleInfoDependencies")]
+                EntryPoint="SetModuleInfoDependencies")]
             internal static extern void SetModuleInfoDependencies_0(global::System.IntPtr info, global::System.IntPtr value, int valueCount);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "SetModuleInfoVersion")]
+                EntryPoint="SetModuleInfoVersion")]
             internal static extern void SetModuleInfoVersion_0(global::System.IntPtr info, int major, int minor, int patch);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "?InitializePluginInfo@@YAXAAUPluginInfo@@@Z")]
+                EntryPoint="?InitializePluginInfo@@YAXAAUPluginInfo@@@Z")]
             internal static extern void InitializePluginInfo_0(global::System.IntPtr info);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "?DestroyPluginInfo@@YAXAAUPluginInfo@@@Z")]
+                EntryPoint="?DestroyPluginInfo@@YAXAAUPluginInfo@@@Z")]
             internal static extern void DestroyPluginInfo_0(global::System.IntPtr info);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "?SetPluginInfoName@@YAXAAUPluginInfo@@PBD@Z")]
+                EntryPoint="?SetPluginInfoName@@YAXAAUPluginInfo@@PBD@Z")]
             internal static extern void SetPluginInfoName_0(global::System.IntPtr info, [MarshalAs(UnmanagedType.LPStr)] string value);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "?SetPluginInfoService@@YAXAAUPluginInfo@@PBD@Z")]
+                EntryPoint="?SetPluginInfoService@@YAXAAUPluginInfo@@PBD@Z")]
             internal static extern void SetPluginInfoService_0(global::System.IntPtr info, [MarshalAs(UnmanagedType.LPStr)] string value);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "?SetPluginInfoCreateFunction@@YAXAAUPluginInfo@@P6APAXPAUModuleInfo@@HPAX@Z@Z")]
+                EntryPoint="?SetPluginInfoCreateFunction@@YAXAAUPluginInfo@@P6APAXPAUModuleInfo@@HPAX@Z@Z")]
             internal static extern void SetPluginInfoCreateFunction_0(global::System.IntPtr info, global::System.IntPtr value);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "?SetPluginInfoDestroyFunction@@YAXAAUPluginInfo@@P6AXPAX@Z@Z")]
+                EntryPoint="?SetPluginInfoDestroyFunction@@YAXAAUPluginInfo@@P6AXPAX@Z@Z")]
             internal static extern void SetPluginInfoDestroyFunction_0(global::System.IntPtr info, global::System.IntPtr value);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "?SetPluginInfoSaveDataForReloadFunction@@YAXAAUPluginInfo@@P6APBDPAX@Z@Z")]
+                EntryPoint="?SetPluginInfoSaveDataForReloadFunction@@YAXAAUPluginInfo@@P6APBDPAX@Z@Z")]
             internal static extern void SetPluginInfoSaveDataForReloadFunction_0(global::System.IntPtr info, global::System.IntPtr value);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "?SetPluginInfoLoadDataAfterReloadFunction@@YAXAAUPluginInfo@@P6AXPAXPBD@Z@Z")]
+                EntryPoint="?SetPluginInfoLoadDataAfterReloadFunction@@YAXAAUPluginInfo@@P6AXPAXPBD@Z@Z")]
             internal static extern void SetPluginInfoLoadDataAfterReloadFunction_0(global::System.IntPtr info, global::System.IntPtr value);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "?SetPluginInfoOnMessageFunction@@YAXAAUPluginInfo@@P6A_NPAXPBD1@Z@Z")]
+                EntryPoint="?SetPluginInfoOnMessageFunction@@YAXAAUPluginInfo@@P6A_NPAXPBD1@Z@Z")]
             internal static extern void SetPluginInfoOnMessageFunction_0(global::System.IntPtr info, global::System.IntPtr value);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "?CopyPluginInfo@@YAXAAUPluginInfo@@ABU1@@Z")]
+                EntryPoint="?CopyPluginInfo@@YAXAAUPluginInfo@@ABU1@@Z")]
             internal static extern void CopyPluginInfo_0(global::System.IntPtr dst, global::System.IntPtr src);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "?AddPluginInfo@@YAXPAPAUPluginInfo@@AAHPBD2P6APAXPAUModuleInfo@@HPAX@ZP6AX4@ZP6APBD4@ZP6AX42@ZP6A_N424@Z@Z")]
+                EntryPoint="?AddPluginInfo@@YAXPAPAUPluginInfo@@AAHPBD2P6APAXPAUModuleInfo@@HPAX@ZP6AX4@ZP6APBD4@ZP6AX42@ZP6A_N424@Z@Z")]
             internal static extern void AddPluginInfo_0(global::System.IntPtr infos, int* infosCount, [MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string service, global::System.IntPtr createFunc, global::System.IntPtr destroyFunc, global::System.IntPtr saveDataForReloadFunc, global::System.IntPtr loadDataAfterReloadFunc, global::System.IntPtr onMessageFunc);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "?ClearPluginInfos@@YAXPAPAUPluginInfo@@AAH@Z")]
+                EntryPoint="?ClearPluginInfos@@YAXPAPAUPluginInfo@@AAH@Z")]
             internal static extern void ClearPluginInfos_0(global::System.IntPtr infos, int* infosCount);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "?CreatePlugin@@YAPAUCreatedPlugin@@PAUModuleInfo@@PBDPAX@Z")]
+                EntryPoint="?CreatePlugin@@YAPAUCreatedPlugin@@PAUModuleInfo@@PBDPAX@Z")]
             internal static extern global::System.IntPtr CreatePlugin_0(global::System.IntPtr module, [MarshalAs(UnmanagedType.LPStr)] string pluginName, global::System.IntPtr creationData);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "?DestroyPlugin@@YA_NPAUCreatedPlugin@@@Z")]
+                EntryPoint="?DestroyPlugin@@YA_NPAUCreatedPlugin@@@Z")]
             [return: MarshalAsAttribute(UnmanagedType.I1)]
             internal static extern bool DestroyPlugin_0(global::System.IntPtr plugin);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "?SendMessageToPlugin@@YA_NPAUCreatedPlugin@@PBDPAX@Z")]
+                EntryPoint="?SendMessageToPlugin@@YA_NPAUCreatedPlugin@@PBDPAX@Z")]
             [return: MarshalAsAttribute(UnmanagedType.I1)]
             internal static extern bool SendMessageToPlugin_0(global::System.IntPtr plugin, [MarshalAs(UnmanagedType.LPStr)] string messageName, global::System.IntPtr messageData);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport("CppPlug_d.dll", CallingConvention = global::System.Runtime.InteropServices.CallingConvention.Cdecl,
-                EntryPoint = "?GetDependency@@YAPAUModuleInfo@@PAU1@HPBD@Z")]
+                EntryPoint="?GetDependency@@YAPAUModuleInfo@@PAU1@HPBD@Z")]
             internal static extern global::System.IntPtr GetDependency_0(global::System.IntPtr dependencies, int dependenciesCount, [MarshalAs(UnmanagedType.LPStr)] string wantedDependencyName);
         }
 
@@ -3177,14 +3185,14 @@ namespace CppPlug
         /// <summary>
         /// <para>Functions to operate on plugins </para>
         /// </summary>
-        public static CreatedPlugin CreatePlugin(ModuleInfo module, string pluginName, global::System.IntPtr creationData)
+        public static CreatedPlugin CreatePlugin(ModuleInfo module, string pluginName, global::System.IntPtr creationData = new global::System.IntPtr())
         {
             var __arg0 = ReferenceEquals(module, null) ? global::System.IntPtr.Zero : module.__Instance;
             var __ret = __Internal.CreatePlugin_0(__arg0, pluginName, creationData);
             CreatedPlugin __result0;
             if (__ret == IntPtr.Zero) __result0 = null;
             else if (CreatedPlugin.NativeToManagedMap.ContainsKey(__ret))
-                __result0 = (CreatedPlugin)CreatedPlugin.NativeToManagedMap[__ret];
+                __result0 = (CreatedPlugin) CreatedPlugin.NativeToManagedMap[__ret];
             else __result0 = CreatedPlugin.__CreateInstance(__ret);
             return __result0;
         }
@@ -3213,7 +3221,7 @@ namespace CppPlug
             ModuleInfo __result0;
             if (__ret == IntPtr.Zero) __result0 = null;
             else if (ModuleInfo.NativeToManagedMap.ContainsKey(__ret))
-                __result0 = (ModuleInfo)ModuleInfo.NativeToManagedMap[__ret];
+                __result0 = (ModuleInfo) ModuleInfo.NativeToManagedMap[__ret];
             else __result0 = ModuleInfo.__CreateInstance(__ret);
             return __result0;
         }

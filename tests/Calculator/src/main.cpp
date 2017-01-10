@@ -8,9 +8,13 @@ int main(int argc, char* argv[])
 
 	Path standardCalculatorPath = Path(cwd) + Path("StandardCalculator");
 	Path advancedCalculatorPath = Path(cwd) + Path("AdvancedCalculator");
+	Path managedCalculatorPath = Path(cwd) + Path("ManagedCalculator");
+
+	ModulesManager::GetInstance().Initialize();
 
 	std::string errors = "";
 	const std::shared_ptr<Module>& moduleStandard = ModulesManager::GetInstance().LoadModule(standardCalculatorPath.GetPath(), &errors);
+	const std::shared_ptr<Module>& moduleManaged = ModulesManager::GetInstance().LoadModule(managedCalculatorPath.GetPath(), &errors);
 	const std::shared_ptr<Module>& moduleAdvanced = ModulesManager::GetInstance().LoadModule(advancedCalculatorPath.GetPath(), &errors);
 	
 	float a = 5.0f;
@@ -20,7 +24,7 @@ int main(int argc, char* argv[])
 	if (moduleAdvanced)
 	{
 		Plugin* multiplier = moduleAdvanced->CreatePlugin("Multiply", nullptr);
-				
+	
 		multiplier->SendMessage("setA", &a);
 		multiplier->SendMessage("setB", &b);
 		multiplier->SendMessage("getResult", &result);
@@ -32,9 +36,7 @@ int main(int argc, char* argv[])
 			printf("Press a key to continue...");
 			getchar();
 		});
-
-		//multiplier = moduleAdvanced->CreatePlugin("Multiply", nullptr);
-
+		
 		multiplier->SendMessage("setA", &a);
 		multiplier->SendMessage("setB", &b);
 		multiplier->SendMessage("getResult", &result);

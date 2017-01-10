@@ -1,6 +1,7 @@
 #ifdef SUPPORT_MANAGED
 
 #include "ManagedPlugin.h"
+#include "ModuleTools.hpp"
 
 ManagedPlugin::ManagedPlugin(ModuleInfo* moduleInfo, PluginInfo* pluginInfo, void* creationData, void* pluginImpl)
 	: _createdLocally(pluginImpl != nullptr)
@@ -18,8 +19,21 @@ ManagedPlugin::~ManagedPlugin()
 
 void ManagedPlugin::CreateImpl(ModuleInfo* dependencies, int dependenciesCount, void* creationData)
 {
-	if (_pluginInfos)
-		_pluginImpl = _pluginInfos->_createPluginFunc(dependencies, dependenciesCount, creationData);
+	if (_pluginInfos && _pluginInfos->_reserved_cppCreatePluginFunc != nullptr)
+	{
+		std::vector<CModuleInfo> dependenciesVector;
+
+		if (dependencies != nullptr && dependenciesCount > 0)
+		{
+			dependenciesVector.reserve(dependenciesCount);
+			for (int i = 0; i < dependenciesCount; i++)
+				dependenciesVector.push_back(&dependencies[i]);
+		}
+
+		__cpp_createPluginFunc func = (__cpp_createPluginFunc)_pluginInfos->_reserved_cppCreatePluginFunc;
+		//_pluginImpl = func(dependenciesVector, creationData);
+		_pluginImpl = func(nullptr, 0, creationData);
+	}
 }
 
 void ManagedPlugin::DestroyImpl()

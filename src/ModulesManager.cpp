@@ -111,10 +111,7 @@ std::shared_ptr<Module> ModulesManager::LoadModule(const std::string& path, std:
 	else if (moduleInfos._moduleType == MT_Unmanaged)
 		loadedModule = new UnmanagedModule(moduleInfos, mainPath.GetPath());
 	else if (moduleInfos._moduleType == MT_Managed)
-	{
-		*actualError = "Managed modules are't supported yet";
-		return nullptr;
-	}
+		loadedModule = new ManagedModule(moduleInfos, mainPath.GetPath());
 
 	DestroyModuleInfo(moduleInfos);
 	
@@ -197,8 +194,8 @@ void ModulesManager::ReadModuleJSON(const Path& path, ModuleInfo& moduleInfos)
 				json::const_iterator binaryOperatingSystemIt = binaryInfoJSON.find("os");
 				json::const_iterator binaryArchIt = binaryInfoJSON.find("arch");
 				json::const_iterator binaryAutoCompileIt = binaryInfoJSON.find("auto_compile");
-				json::const_iterator binaryEntryPointNamespaceIt = binaryInfoJSON.find("compile_command");
-				json::const_iterator binaryEntryPointClassIt = binaryInfoJSON.find("compile_command");
+				json::const_iterator binaryEntryPointNamespaceIt = binaryInfoJSON.find("entry_point_namespace");
+				json::const_iterator binaryEntryPointClassIt = binaryInfoJSON.find("entry_point_class");
 				json::const_iterator binaryCompileCommandIt = binaryInfoJSON.find("compile_command");
 				json::const_iterator binarySourceFilesIt = binaryInfoJSON.find("source_files");
 				json::const_iterator binaryCompilerIt = binaryInfoJSON.find("compiler");

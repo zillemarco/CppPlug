@@ -12,19 +12,19 @@ namespace ManagedCalculator
     {
         public static CLoadModuleResult LoadModule()
         {
-            Console.WriteLine("Loading managed module");
+            Console.WriteLine("Loading module: ManagedCalculator");
             return new CLoadModuleResult(ReloadModule, UnloadModule);
         }
 
         public static int UnloadModule()
         {
-            Console.WriteLine("Unloading managed module");
+            Console.WriteLine("Unloading module: ManagedCalculator");
             return 0;
         }
 
         public static int ReloadModule()
         {
-            Console.WriteLine("Reloading managed module");
+            Console.WriteLine("Reloading module: ManagedCalculator");
             return 0;
         }
 
@@ -32,7 +32,7 @@ namespace ManagedCalculator
         {
             return new CPluginInfo[]
             {
-                new CPluginInfo()
+                new CPluginInfo("Sub", "Calculator", Sub.Create, Sub.Destroy, Sub.OnMessage, null, null)
             };
         }
     }

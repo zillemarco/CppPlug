@@ -16,10 +16,10 @@ public:
 		, _b(0.0f)
 	{
 		ModuleInfo* standardCalculator = GetDependency(deps, depsCount, "StandardCalculator");
+		ModuleInfo* managedCalculator = GetDependency(deps, depsCount, "ManagedCalculator");
+		
 		_sumPlugin = CreatePlugin(standardCalculator, "Sum", nullptr);
-
-		if (_sumPlugin != nullptr)
-			printf("Sum plugin created!\n");
+		_subPlugin = CreatePlugin(managedCalculator, "Sub", nullptr);
 	}
 
 	~Multiply()
@@ -33,11 +33,15 @@ public:
 	{
 		if (strcmp(messageName, "setA") == 0)
 		{
+			SendMessageToPlugin(_subPlugin, "SaySomething", "A was set!");
+
 			_a = *((float*)messageData);
 			return true;
 		}
 		else if (strcmp(messageName, "setB") == 0)
 		{
+			SendMessageToPlugin(_subPlugin, "SaySomething", "B was set!");
+
 			_b = *((float*)messageData);
 			return true;
 		}
@@ -72,6 +76,7 @@ public:
 
 private:
 	CreatedPlugin* _sumPlugin;
+	CreatedPlugin* _subPlugin;
 
 	float _a;
 	float _b;

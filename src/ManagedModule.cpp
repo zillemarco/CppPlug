@@ -11,13 +11,17 @@
 #include <sstream>
 
 #include <mono/jit/jit.h>
+#include <mono/metadata/mono-debug.h>
 #include <mono/metadata/assembly.h>
+#include <mono/metadata/threads.h>
+#include <mono/metadata/mono-gc.h>
+#include <mono/metadata/environment.h>
 
 struct ManagedModuleInternalData
 {
-	MonoMethod* _loadModuleFunc;		/** Pointer to the function that gets called to load the module */
-	MonoMethod* _unloadModuleFunc;		/** Pointer to the function that gets called to unload the module */
-	MonoMethod* _reloadModuleFunc;		/** Pointer to the function that gets called to reload the module */
+	MonoMethod* _loadModuleFunc;			/** Pointer to the function that gets called to load the module */
+	__unloadModuleFunc _unloadModuleFunc;	/** Pointer to the function that gets called to unload the module */
+	__reloadModuleFunc _reloadModuleFunc;	/** Pointer to the function that gets called to reload the module */
 
 	MonoAssembly* _moduleAssembly;		/** Assembly of the loaded module */
 	MonoImage* _moduleImage;			/** Image of the loaded module */
@@ -76,12 +80,7 @@ ManagedModule::ManagedModule(const ModuleInfo& moduleInfo, const std::string& ba
 
 ManagedModule::~ManagedModule()
 {
-	std::vector<Module*> localDependantModules = _dependantModules;
-
 	Unload();
-
-	for (auto& el : localDependantModules)
-		el->OnDependencyDestructed(this);
 
 	for (auto& el : *_pluginsDataToRestoreAfterReload)
 		delete el;
@@ -179,6 +178,7 @@ bool ManagedModule::Load(std::string& error, bool reloadPluginsFromStoredData)
 		return false;
 	}
 	
+	void* nullArgs = nullptr;
 	MonoImageOpenStatus status;
 
 	size_t fileSize;
@@ -211,7 +211,7 @@ bool ManagedModule::Load(std::string& error, bool reloadPluginsFromStoredData)
 	}
 
 	MonoClass* klass = mono_class_from_name(_internalData->_moduleImage, _binaryInfo->_entryPointNamespace, _binaryInfo->_entryPointClass);
-	if (klass = nullptr)
+	if (klass == nullptr)
 	{
 		mono_image_close(_internalData->_moduleImage);
 		_internalData->_moduleImage = nullptr;
@@ -221,11 +221,9 @@ bool ManagedModule::Load(std::string& error, bool reloadPluginsFromStoredData)
 		return false;
 	}
 
-	// Get the module's methods
+	// Get the module's LoadModule method
 	_internalData->_loadModuleFunc = FindMethod(klass, "LoadModule", 0);
-	_internalData->_reloadModuleFunc = FindMethod(klass, "ReloadModule", 0);
-	_internalData->_unloadModuleFunc = FindMethod(klass, "UnloadModule", 0);
-
+	
 	if (_internalData->_loadModuleFunc == nullptr)
 	{
 		mono_image_close(_internalData->_moduleImage);
@@ -236,13 +234,30 @@ bool ManagedModule::Load(std::string& error, bool reloadPluginsFromStoredData)
 		return false;
 	}
 
+	// Call the module's LoadModule method to initialize the module and get the other methods (unload and reload)
+	MonoObject* loadResultObj = mono_runtime_invoke(_internalData->_loadModuleFunc, nullptr, &nullArgs, nullptr);
+	if (loadResultObj == nullptr)
+	{
+		mono_image_close(_internalData->_moduleImage);
+		_internalData->_moduleImage = nullptr;
+		_internalData->_moduleAssembly = nullptr;
+
+		error = "Cannot load the managed module: LoadModule method returned not valid data";
+		return false;
+	}
+
+	CLoadModuleResult* loadResult = (CLoadModuleResult*)mono_object_unbox(loadResultObj);
+	
+	_internalData->_reloadModuleFunc = loadResult->ReloadModuleFunc();
+	_internalData->_unloadModuleFunc = loadResult->UnloadModuleFunc();
+
 	if (_internalData->_unloadModuleFunc == nullptr)
 	{
 		mono_image_close(_internalData->_moduleImage);
 		_internalData->_moduleImage = nullptr;
 		_internalData->_moduleAssembly = nullptr;
 
-		error = "Cannot load the managed module: the entry point class doesn't implement the UnloadModule method";
+		error = "Cannot load the managed module: module's LoadMethod returned a CLoadModuleResult that doesn't contain a valid UnloadModuleFunc";
 		return false;
 	}
 	
@@ -253,12 +268,11 @@ bool ManagedModule::Load(std::string& error, bool reloadPluginsFromStoredData)
 	MonoMethod* registerPluginsFunc = FindMethod(klass, "RegisterPlugins", 0);
 	if (registerPluginsFunc)
 	{
-		void* args = nullptr;
-		MonoObject* registeredPluginsObj = mono_runtime_invoke(registerPluginsFunc, nullptr, &args, nullptr);
+		MonoObject* registeredPluginsObj = mono_runtime_invoke(registerPluginsFunc, nullptr, &nullArgs, nullptr);
 
 		if (registeredPluginsObj != nullptr)
 		{
-			MonoArray* registeredPlugins = (MonoArray*)mono_object_unbox(registeredPluginsObj);
+			MonoArray* registeredPlugins = (MonoArray*)registeredPluginsObj;
 
 			if (registeredPlugins != nullptr)
 			{
@@ -266,35 +280,30 @@ bool ManagedModule::Load(std::string& error, bool reloadPluginsFromStoredData)
 
 				for (unsigned int i = 0; i < len; i++)
 				{
-					MonoObject* obj = mono_array_get(registeredPlugins, MonoObject*, i);
+					CPluginInfo infos = mono_array_get(registeredPlugins, CPluginInfo, i);
 
-					if (obj)
+					if (infos._pluginInfo != nullptr)
 					{
-						CPluginInfo* infos = (CPluginInfo*)mono_object_unbox(obj);
-
-						if (infos && infos->_pluginInfo != nullptr)
+						auto& rpIt = _registeredPluginsMap->find(infos.Name());
+						if (rpIt == _registeredPluginsMap->end())
 						{
-							auto& rpIt = _registeredPluginsMap->find(infos->Name());
-							if (rpIt == _registeredPluginsMap->end())
+							PluginInfo* newInfo = new PluginInfo();
+							CopyPluginInfo(*newInfo, *infos._pluginInfo);
+
+							newInfo->_reserved_module = this;
+
+							(*_registeredPluginsMap)[infos.Name()] = newInfo;
+							_registeredPluginsVec->push_back(newInfo);
+
+							auto& gsIt = _givenServices->find(infos.Service());
+							if (gsIt != _givenServices->end())
+								gsIt->second.push_back(newInfo);
+							else
 							{
-								PluginInfo* newInfo = new PluginInfo();
-								CopyPluginInfo(*newInfo, *infos->_pluginInfo);
+								std::vector<PluginInfo*> tmpVec;
+								tmpVec.push_back(newInfo);
 
-								newInfo->_reserved_module = this;
-
-								(*_registeredPluginsMap)[infos->Name()] = newInfo;
-								_registeredPluginsVec->push_back(newInfo);
-
-								auto& gsIt = _givenServices->find(infos->Service());
-								if (gsIt != _givenServices->end())
-									gsIt->second.push_back(newInfo);
-								else
-								{
-									std::vector<PluginInfo*> tmpVec;
-									tmpVec.push_back(newInfo);
-
-									(*_givenServices)[infos->Service()] = tmpVec;
-								}
+								(*_givenServices)[infos.Service()] = tmpVec;
 							}
 						}
 					}
@@ -340,108 +349,109 @@ bool ManagedModule::Load(std::string& error, bool reloadPluginsFromStoredData)
 
 void ManagedModule::Unload(bool unloadDependantModules, bool storePluginsForReload)
 {
-	//if (_moduleAssembly != nullptr && _moduleImage != nullptr)
-	//{
-	//	// Unload all the modules that depend on this one
-	//	// Only when reloading the module the dependant plugins don't get unloaded
-	//	if (unloadDependantModules)
-	//	{
-	//		for (size_t i = 0; i < _dependantModules.size(); i++)
-	//			_dependantModules[i]->Unload();
-	//	}
+	if (_internalData->_moduleAssembly != nullptr && _internalData->_moduleImage != nullptr)
+	{
+		// Unload all the modules that depend on this one
+		// Only when reloading the module the dependant plugins don't get unloaded
+		if (unloadDependantModules)
+		{
+			for (size_t i = 0; i < _dependantModules.size(); i++)
+				_dependantModules[i]->Unload();
+		}
 
-	//	for (size_t i = 0; i < _createdPlugins->size(); i++)
-	//	{
-	//		CreatedPlugin* pl = _createdPlugins->at(i);
+		for (size_t i = 0; i < _createdPlugins->size(); i++)
+		{
+			CreatedPlugin* pl = _createdPlugins->at(i);
 
-	//		if (storePluginsForReload == false)
-	//		{
-	//			delete ((ManagedPlugin*)(pl->_reserved_plugin));
-	//			delete pl;
-	//		}
-	//		else
-	//		{
-	//			// Memorize the plugin data to be loaded again later
-	//			PluginDataToRestoreAfterReload* pluginData = new PluginDataToRestoreAfterReload();
-	//			pluginData->_pluginName = pl->_reserved_plugin_info->_name;
-	//			pluginData->_referencePlugin = pl;
+			if (storePluginsForReload == false)
+			{
+				delete ((ManagedPlugin*)(pl->_reserved_plugin));
+				delete pl;
+			}
+			else
+			{
+				// Memorize the plugin data to be loaded again later
+				PluginDataToRestoreAfterReload* pluginData = new PluginDataToRestoreAfterReload();
+				pluginData->_pluginName = pl->_reserved_plugin_info->_name;
+				pluginData->_referencePlugin = pl;
 
-	//			if (pl->_reserved_plugin_info->_saveDataForPluginReloadFunc)
-	//			{
-	//				const char* savedData = ((ManagedPlugin*)(pl->_reserved_plugin))->SaveDataForReload();
+				if (pl->_reserved_plugin_info->_saveDataForPluginReloadFunc)
+				{
+					const char* savedData = ((ManagedPlugin*)(pl->_reserved_plugin))->SaveDataForReload();
 
-	//				if (savedData != nullptr)
-	//					pluginData->_storedData = savedData;
-	//				else
-	//					pluginData->_storedData = "";
-	//			}
+					if (savedData != nullptr)
+						pluginData->_storedData = savedData;
+					else
+						pluginData->_storedData = "";
+				}
 
-	//			_pluginsDataToRestoreAfterReload->push_back(pluginData);
+				_pluginsDataToRestoreAfterReload->push_back(pluginData);
 
-	//			// Delete the plugin
-	//			delete ((ManagedPlugin*)(pl->_reserved_plugin));
-	//			pl->_reserved_plugin = nullptr;
-	//			pl->_reserved_plugin_info = nullptr;
-	//		}
-	//	}
+				// Delete the plugin
+				delete ((ManagedPlugin*)(pl->_reserved_plugin));
+				pl->_reserved_plugin = nullptr;
+				pl->_reserved_plugin_info = nullptr;
+			}
+		}
 
-	//	if (storePluginsForReload == false)
-	//		_createdPlugins->clear();
+		if (storePluginsForReload == false)
+			_createdPlugins->clear();
 
-	//	for (auto& el : (*_registeredPluginsVec))
-	//	{
-	//		DestroyPluginInfo(*el);
-	//		delete el;
-	//	}
+		for (auto& el : (*_registeredPluginsVec))
+		{
+			DestroyPluginInfo(*el);
+			delete el;
+		}
 
-	//	_registeredPluginsVec->clear();
-	//	_registeredPluginsMap->clear();
-	//	_givenServices->clear();
+		_registeredPluginsVec->clear();
+		_registeredPluginsMap->clear();
+		_givenServices->clear();
 
-	//	_unloadModuleFunc();
+		_internalData->_unloadModuleFunc();
 
-	//	delete _moduleBinary;
-	//	_moduleBinary = nullptr;
-	//}
+		mono_image_close(_internalData->_moduleImage);
+		_internalData->_moduleAssembly = nullptr;
+		_internalData->_moduleImage = nullptr;
+	}
 
 	NotifyUnloadToDependencies();
 }
 
 bool ManagedModule::Reload(std::function<void()> moduleUnloaded, std::string& error)
 {
-	//if (_moduleAssembly == nullptr || _moduleImage == nullptr)
-	//{
-	//	error = "The module wasn't loaded";
-	//	return false;
-	//}
-	//else
-	//{
-	//	// Call the reload to give the module the chanche to save its data if it needs
-	//	if (_reloadModuleFunc == nullptr)
-	//	{
-	//		error = "The module hasn't got a reload method";
-	//		return false;
-	//	}
+	if (_internalData->_moduleAssembly != nullptr && _internalData->_moduleImage != nullptr)
+	{
+		error = "The module wasn't loaded";
+		return false;
+	}
+	else
+	{
+		// Call the reload to give the module the chanche to save its data if it needs
+		if (_internalData->_reloadModuleFunc == nullptr)
+		{
+			error = "The module hasn't got a reload method";
+			return false;
+		}
 
-	//	int result = _reloadModuleFunc();
-	//	if (result != 0)
-	//	{
-	//		std::stringstream ss;
-	//		ss << "The module's reload method returned an error code: " << result;
-	//		error = ss.str();
-	//		return false;
-	//	}
+		int result = _internalData->_reloadModuleFunc();
+		if (result != 0)
+		{
+			std::stringstream ss;
+			ss << "The module's reload method returned an error code: " << result;
+			error = ss.str();
+			return false;
+		}
 
-	//	// Unload the module
-	//	Unload(false, true);
+		// Unload the module
+		Unload(false, true);
 
-	//	// Let the called know that the mobule has been unloaded
-	//	if (moduleUnloaded)
-	//		moduleUnloaded();
+		// Let the caller know that the mobule has been unloaded
+		if (moduleUnloaded)
+			moduleUnloaded();
 
-	//	// Load the module again
-	//	return Load(error, true);
-	//}
+		// Load the module again
+		return Load(error, true);
+	}
 
 	return true;
 }

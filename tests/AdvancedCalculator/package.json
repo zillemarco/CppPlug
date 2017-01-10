@@ -10,7 +10,8 @@
         }
     ],
     "dependencies": {
-        "StandardCalculator": "1.1.0"
+        "StandardCalculator": "1.1.0",
+        "ManagedCalculator": "1.0.0"
     },
     "description": "Little module that contains the advanced calculator functions",
     "author": "Zille Marco",

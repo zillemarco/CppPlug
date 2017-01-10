@@ -142,6 +142,8 @@ void Module::NotifyUnloadToDependencies()
 		Module* depencencyModule = (Module*)(el->_reserved_module);
 		depencencyModule->OnDependantModuleUnloaded(this);
 	}
+
+	_dependencies.clear();
 }
 
 void Module::OnDependantModuleUnloaded(Module* module)
@@ -149,18 +151,6 @@ void Module::OnDependantModuleUnloaded(Module* module)
 	auto& el = std::find(_dependantModules.begin(), _dependantModules.end(), module);
 	if (el != _dependantModules.end())
 		_dependantModules.erase(el);
-}
-
-void Module::OnDependencyDestructed(Module* module)
-{
-	for(size_t i = 0; i < _dependencies.size(); i++)
-	{
-		if (_dependencies[i]->_reserved_module == module)
-		{
-			_dependencies.erase(_dependencies.begin() + i);
-			return;
-		}
-	}
 }
 
 extern _C_EXPORT_ CppPlug_API void InitializeModuleDependencyInfo(ModuleDependencyInfo& info)
@@ -462,6 +452,17 @@ extern _C_EXPORT_ CppPlug_API void CopyModuleInfo(ModuleInfo& dst, const ModuleI
 	SetModuleInfoLicense(dst, src._license);
 	SetModuleInfoDependencies(dst, src._dependencies, src._dependenciesCount);
 	SetModuleInfoVersion(dst, src._versionMajor, src._versionMinor, src._versionPatch);
+
+	dst._reserved_module = src._reserved_module;
+	dst._reserved_createPluginFunc = src._reserved_createPluginFunc;
+	dst._reserved_destroyPluginFunc = src._reserved_destroyPluginFunc;
+	dst._reserved_sendMessageToPluginFunc = src._reserved_sendMessageToPluginFunc;
+
+	dst._reserved_registeredPlugins = src._reserved_registeredPlugins;
+	dst._reserved_registeredPluginsCount = src._reserved_registeredPluginsCount;
+
+	dst._reserved_dependencies = src._reserved_dependencies;
+	dst._reserved_dependenciesCount = src._reserved_dependenciesCount;
 }
 
 extern _C_EXPORT_ CppPlug_API void SetModuleInfoName(ModuleInfo& info, const char* value)

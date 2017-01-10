@@ -1,0 +1,17 @@
+{
+    "name": "ManagedCalculator",
+    "version": "1.0.0",
+    "type": "Managed",
+    "binaries": [
+        {
+            "path": "ManagedCalculator.dll",
+            "os": "win",
+            "arch": "x86",
+            "entry_point_namespace": "ManagedCalculator",
+            "entry_point_class": "ManagedCalculator"
+        }
+    ],
+    "description": "Little module that contains the managed calculator functions",
+    "author": "Zille Marco",
+    "license": "MIT"
+}

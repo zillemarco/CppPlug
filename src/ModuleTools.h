@@ -147,6 +147,7 @@ struct PluginInfo
 	/** Reserved attributes */
 
 	void* _reserved_module;
+	void* _reserved_cppCreatePluginFunc;
 };
 
 struct CreatedPlugin
@@ -315,6 +316,7 @@ static void CopyPluginInfo(PluginInfo& dst, const PluginInfo& src)
 	SetPluginInfoOnMessageFunction(dst, src._onMessagePluginFunc);
 
 	dst._reserved_module = src._reserved_module;
+	dst._reserved_cppCreatePluginFunc = src._reserved_cppCreatePluginFunc;
 }
 
 static void AddPluginInfo(PluginInfo** infos, int& infosCount, const char* name, const char* service, __createPluginFunc createFunc, __destroyPluginFunc destroyFunc, __saveDataForPluginReloadFunc saveDataForReloadFunc, __loadDataAfterPluginReloadFunc loadDataAfterReloadFunc, __onMessagePluginFunc onMessageFunc)

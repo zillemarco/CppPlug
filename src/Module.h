@@ -73,7 +73,6 @@ protected:
 	virtual void NotifyUnloadToDependencies();
 
 	virtual void OnDependantModuleUnloaded(Module* module);
-	virtual void OnDependencyDestructed(Module* module);
 
 public:
 	virtual std::vector<std::string> GetGivenServices() const = 0;

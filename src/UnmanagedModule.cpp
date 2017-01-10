@@ -21,12 +21,7 @@ UnmanagedModule::UnmanagedModule(const ModuleInfo& moduleInfo, const std::string
 
 UnmanagedModule::~UnmanagedModule()
 {
-	std::vector<Module*> localDependantModules = _dependantModules;
-
 	Unload();
-
-	for (auto& el : localDependantModules)
-		el->OnDependencyDestructed(this);
 	
 	for (auto& el : *_pluginsDataToRestoreAfterReload)
 		delete el;
@@ -269,7 +264,7 @@ bool UnmanagedModule::Reload(std::function<void()> moduleUnloaded, std::string& 
 		// Unload the module
 		Unload(false, true);
 
-		// Let the called know that the mobule has been unloaded
+		// Let the caller know that the mobule has been unloaded
 		if (moduleUnloaded)
 			moduleUnloaded();
 

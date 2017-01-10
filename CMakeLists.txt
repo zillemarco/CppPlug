@@ -108,4 +108,4 @@ endif()
 
 
 
-# -h="D:\Progetti\Git\CppPlug\src\IModule.h" --inc="D:\Progetti\Git\CppPlug\src" -d="CppPlug_COMPILE_MANAGED_BRIDGE" --iln="CppPlug_d" --isln="CppPlug_d.dll" --od="D:\Progetti\Git\CppPlug" --on="CppPlug"
+# -h="D:\Progetti\Git\CppPlug\src\ModuleTools.hpp" --inc="D:\Progetti\Git\CppPlug\src" -d="CppPlug_COMPILE_MANAGED_BRIDGE" --iln="CppPlug_d" --isln="CppPlug_d.dll" --ld="D:\Progetti\Builds\CppPlug\Build\CppPlug\lib" --od="D:\Progetti\Git\CppPlug\tests\ManagedCalculator" --on="CppPlug" --ub

@@ -14,11 +14,6 @@ option(MANAGED_PLUGINS_SUPPORT  "If enabled managed plugins will be supported us
 option(CREATE_INSTALL           "Generate installation target"                               OFF)
 option(BUILD_TESTS              "Builds the tests"                                           ON)
 
-set(CppPlug_RELEASE_SUFFIX                    ""      CACHE STRING "Suffix for release builds")
-set(CppPlug_DEBUG_SUFFIX                      "_d"    CACHE STRING "Suffix for debug builds")
-set(CppPlug_RELEASE_WITH_DEBUG_INFO_SUFFIX    "_rd"   CACHE STRING "Suffix for release with debug info builds")
-set(CppPlug_MIN_SIZE_RELEASE_SUFFIX           "_msr"  CACHE STRING "Suffix for min size release builds")
-
 add_definitions(-DCppPlug_EXPORT_SHARED)
 
 if(MANAGED_PLUGINS_SUPPORT)
@@ -50,22 +45,21 @@ target_link_libraries(${PROJECT_NAME} "${MONO_ROOT}/lib/monosgen-2.0.lib")
 endif()
 
 # Set the output path and properties
-set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY                   "${CMAKE_BINARY_DIR}/Build/CppPlug/lib" LIBRARY_OUTPUT_DIRECTORY                "${CMAKE_BINARY_DIR}/Build/CppPlug/bin" RUNTIME_OUTPUT_DIRECTORY                "${CMAKE_BINARY_DIR}/Build/CppPlug/bin")
-set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_DEBUG             "${CMAKE_BINARY_DIR}/Build/CppPlug/lib" LIBRARY_OUTPUT_DIRECTORY_DEBUG          "${CMAKE_BINARY_DIR}/Build/CppPlug/bin" RUNTIME_OUTPUT_DIRECTORY_DEBUG          "${CMAKE_BINARY_DIR}/Build/CppPlug/bin")
-set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELEASE           "${CMAKE_BINARY_DIR}/Build/CppPlug/lib" LIBRARY_OUTPUT_DIRECTORY_RELEASE        "${CMAKE_BINARY_DIR}/Build/CppPlug/bin" RUNTIME_OUTPUT_DIRECTORY_RELEASE        "${CMAKE_BINARY_DIR}/Build/CppPlug/bin")
-set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_MINSIZEREL        "${CMAKE_BINARY_DIR}/Build/CppPlug/lib" LIBRARY_OUTPUT_DIRECTORY_MINSIZEREL     "${CMAKE_BINARY_DIR}/Build/CppPlug/bin" RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL     "${CMAKE_BINARY_DIR}/Build/CppPlug/bin")
-set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO    "${CMAKE_BINARY_DIR}/Build/CppPlug/lib" LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/Build/CppPlug/bin" RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/Build/CppPlug/bin")
+set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_DEBUG             "${CMAKE_BINARY_DIR}/Build/CppPlug/lib/Debug"           LIBRARY_OUTPUT_DIRECTORY_DEBUG          "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/Debug"           RUNTIME_OUTPUT_DIRECTORY_DEBUG          "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/Debug")
+set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELEASE           "${CMAKE_BINARY_DIR}/Build/CppPlug/lib/Release"         LIBRARY_OUTPUT_DIRECTORY_RELEASE        "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/Release"         RUNTIME_OUTPUT_DIRECTORY_RELEASE        "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/Release")
+set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_MINSIZEREL        "${CMAKE_BINARY_DIR}/Build/CppPlug/lib/MinSizeRel"      LIBRARY_OUTPUT_DIRECTORY_MINSIZEREL     "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/MinSizeRel"      RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL     "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/MinSizeRel")
+set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO    "${CMAKE_BINARY_DIR}/Build/CppPlug/lib/RelWithDebInfo"  LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/RelWithDebInfo"  RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/RelWithDebInfo")
 
-set_target_properties(${PROJECT_NAME} PROPERTIES RELEASE_POSTFIX        "${CppPlug_RELEASE_SUFFIX}")
-set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX          "${CppPlug_DEBUG_SUFFIX}")
-set_target_properties(${PROJECT_NAME} PROPERTIES MINSIZEREL_POSTFIX     "${CppPlug_MIN_SIZE_RELEASE_SUFFIX}")
-set_target_properties(${PROJECT_NAME} PROPERTIES RELWITHDEBINFO_POSTFIX "${CppPlug_RELEASE_WITH_DEBUG_INFO_SUFFIX}")
+set_target_properties(${PROJECT_NAME} PROPERTIES RELEASE_POSTFIX        "")
+set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX          "")
+set_target_properties(${PROJECT_NAME} PROPERTIES MINSIZEREL_POSTFIX     "")
+set_target_properties(${PROJECT_NAME} PROPERTIES RELWITHDEBINFO_POSTFIX "")
 
 # Include version information in the output
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${CppPlug_VERSION})
 
 if(MANAGED_PLUGINS_SUPPORT)
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${MONO_RUNTIME_DLL}" "${CMAKE_BINARY_DIR}/Build/CppPlug/bin")
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${MONO_RUNTIME_DLL}" "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>$<$<CONFIG:RelWithDebInfo>:RelWithDebInfo>$<$<CONFIG:MinSizeRel>:MinSizeRel>")
 endif()
 
 if (WIN32)
@@ -92,6 +86,10 @@ if(BUILD_TESTS)
     add_subdirectory(tests/Calculator)
     add_subdirectory(tests/StandardCalculator)
     add_subdirectory(tests/AdvancedCalculator)
+    
+    if(MANAGED_PLUGINS_SUPPORT)
+        add_subdirectory(tests/ManagedCalculator)
+    endif()
 endif()
 
 if(CREATE_INSTALL)

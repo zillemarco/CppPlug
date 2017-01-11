@@ -11,18 +11,17 @@ add_library(${PROJECT_NAME} SHARED ${SRC})
 set_property(TARGET ${PROJECT_NAME} PROPERTY FOLDER "Tests")
 
 # Set the output path and properties
-set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY                   "${CMAKE_BINARY_DIR}/Build/CppPlug/lib/StandardCalculator" LIBRARY_OUTPUT_DIRECTORY                "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/StandardCalculator" RUNTIME_OUTPUT_DIRECTORY                "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/StandardCalculator")
-set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_DEBUG             "${CMAKE_BINARY_DIR}/Build/CppPlug/lib/StandardCalculator" LIBRARY_OUTPUT_DIRECTORY_DEBUG          "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/StandardCalculator" RUNTIME_OUTPUT_DIRECTORY_DEBUG          "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/StandardCalculator")
-set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELEASE           "${CMAKE_BINARY_DIR}/Build/CppPlug/lib/StandardCalculator" LIBRARY_OUTPUT_DIRECTORY_RELEASE        "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/StandardCalculator" RUNTIME_OUTPUT_DIRECTORY_RELEASE        "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/StandardCalculator")
-set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_MINSIZEREL        "${CMAKE_BINARY_DIR}/Build/CppPlug/lib/StandardCalculator" LIBRARY_OUTPUT_DIRECTORY_MINSIZEREL     "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/StandardCalculator" RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL     "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/StandardCalculator")
-set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO    "${CMAKE_BINARY_DIR}/Build/CppPlug/lib/StandardCalculator" LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/StandardCalculator" RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/StandardCalculator")
+set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_DEBUG             "${CMAKE_BINARY_DIR}/Build/CppPlug/lib/Debug/StandardCalculator" LIBRARY_OUTPUT_DIRECTORY_DEBUG          "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/Debug/StandardCalculator" RUNTIME_OUTPUT_DIRECTORY_DEBUG          "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/Debug/StandardCalculator")
+set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELEASE           "${CMAKE_BINARY_DIR}/Build/CppPlug/lib/Release/StandardCalculator" LIBRARY_OUTPUT_DIRECTORY_RELEASE        "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/Release/StandardCalculator" RUNTIME_OUTPUT_DIRECTORY_RELEASE        "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/Release/StandardCalculator")
+set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_MINSIZEREL        "${CMAKE_BINARY_DIR}/Build/CppPlug/lib/MinSizeRel/StandardCalculator" LIBRARY_OUTPUT_DIRECTORY_MINSIZEREL     "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/MinSizeRel/StandardCalculator" RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL     "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/MinSizeRel/StandardCalculator")
+set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO    "${CMAKE_BINARY_DIR}/Build/CppPlug/lib/RelWithDebInfo/StandardCalculator" LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/RelWithDebInfo/StandardCalculator" RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/RelWithDebInfo/StandardCalculator")
 
-set_target_properties(${PROJECT_NAME} PROPERTIES RELEASE_POSTFIX        "${CppPlug_RELEASE_SUFFIX}")
-set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX          "${CppPlug_DEBUG_SUFFIX}")
-set_target_properties(${PROJECT_NAME} PROPERTIES MINSIZEREL_POSTFIX     "${CppPlug_MIN_SIZE_RELEASE_SUFFIX}")
-set_target_properties(${PROJECT_NAME} PROPERTIES RELWITHDEBINFO_POSTFIX "${CppPlug_RELEASE_WITH_DEBUG_INFO_SUFFIX}")
+set_target_properties(${PROJECT_NAME} PROPERTIES RELEASE_POSTFIX        "")
+set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX          "")
+set_target_properties(${PROJECT_NAME} PROPERTIES MINSIZEREL_POSTFIX     "")
+set_target_properties(${PROJECT_NAME} PROPERTIES RELWITHDEBINFO_POSTFIX "")
 
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_SOURCE_DIR}/package.json" "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/StandardCalculator/package.json")
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_SOURCE_DIR}/package.json" "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>$<$<CONFIG:RelWithDebInfo>:RelWithDebInfo>$<$<CONFIG:MinSizeRel>:MinSizeRel>/StandardCalculator/package.json")
 
 if (WIN32)
     # The CppPlug DLL needs a special compile-time macro and import library name

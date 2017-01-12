@@ -132,6 +132,9 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CppPlug.Net">
+      <HintPath>${CppPlug_Net_Bindings}/CppPlug.Net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -145,8 +148,6 @@
     <Compile Include="${ManagedCalculator_Source_Path}ManagedCalculator.cs" />
     <Compile Include="${ManagedCalculator_Source_Path}Properties/AssemblyInfo.cs" />
     <Compile Include="${ManagedCalculator_Source_Path}Sub.cs" />
-    <Compile Include="${CppPlug_Bindings_Path}CppPlug.cs" />
-    <Compile Include="${CppPlug_Bindings_Path}Std.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)/Microsoft.CSharp.targets" />
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">

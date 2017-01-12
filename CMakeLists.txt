@@ -33,6 +33,9 @@ endif()
 add_definitions(-DSUPPORT_MANAGED)
 include_directories("${MONO_ROOT}/include/mono-2.0")
 
+set(MONO_COMPILER_DIR "${MONO_ROOT}/bin")
+set(MONO_COMPILER_PATH "${MONO_COMPILER_DIR}/xbuild.bat")
+
 endif()
 
 file(GLOB SRC "${PROJECT_SOURCE_DIR}/src/*.*")
@@ -90,11 +93,19 @@ elseif (APPLE)
 endif()
 
 if(MANAGED_PLUGINS_SUPPORT)
+    add_subdirectory(src/dotNet)
+
+    add_dependencies(${PROJECT_NAME} "CppPlug.Net")
+
     if(WIN32)
+        if(NOT EXISTS "${PROJECT_SOURCE_DIR}/CppPlugGen/build/CppPlugGen.sln")
+            message(FATAL_ERROR "CppPlugGen project wans't found. Generate the project using the script inside the CppPlugGen folder")
+        endif()
+        
         if(CppPlug_64_BIT)
         else()
-            add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND "${PROJECT_SOURCE_DIR}/bindings_gen/CppPlugGen/win/CppPlugGen.exe" WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}/bindings_gen/CppPlugGen/win/")
-            set(CppPlug_Bindings_Path "${PROJECT_SOURCE_DIR}/src/Bindings/CSharp/x86/")
+            set(CppPlug_Net_Bindings "${PROJECT_SOURCE_DIR}/src/bindings/x86/win")
+            add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND "${PROJECT_SOURCE_DIR}/CppPlugGen/build/lib/CppPlugGen.exe" "${MONO_COMPILER_DIR}" WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}")
         endif()
     endif()
 endif()

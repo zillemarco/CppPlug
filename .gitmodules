@@ -1,0 +1,3 @@
+[submodule "CppPlugGen"]
+	path = CppPlugGen
+	url = https://github.com/zillemarco/CppPlugGen.git

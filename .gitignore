@@ -214,3 +214,7 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+
+# Project created files
+src/Bindings

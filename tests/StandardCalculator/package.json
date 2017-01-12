@@ -4,7 +4,7 @@
     "type": "Unmanaged",
     "binaries": [
         {
-            "path": "StandardCalculator_d.dll",
+            "path": "StandardCalculator.dll",
             "os": "win",
             "arch": "x86"
         }

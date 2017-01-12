@@ -5,10 +5,9 @@
 
 #include <vector>
 
-class CModuleInfo;
+class CModuleDependenciesCollection;
 
-//typedef void*(*__cpp_createPluginFunc)(const std::vector<CModuleInfo>&, void*);
-typedef void*(*__cpp_createPluginFunc)(CModuleInfo*, int, void*);
+typedef void*(*__cpp_createPluginFunc)(CModuleDependenciesCollection*, void*);
 
 class CppPlug_API CPluginInfo
 {
@@ -441,6 +440,47 @@ public:
 
 private:
 	LoadModuleResult _loadModuleResult;
+};
+
+class CppPlug_API CModuleDependenciesCollection
+{
+public:
+	CModuleDependenciesCollection() { }
+
+	CModuleDependenciesCollection(const std::vector<CModuleInfo>& dependencies)
+		: _dependencies(dependencies)
+	{ }
+
+	CModuleDependenciesCollection(const CModuleDependenciesCollection& src)
+	{
+		_dependencies = src._dependencies;
+	}
+
+	~CModuleDependenciesCollection() { }
+
+public:
+	int Count() { return (int)_dependencies.size(); }
+
+	CModuleInfo* At(int index)
+	{ 
+		if (index >= 0 && index < (int)_dependencies.size())
+			return &_dependencies[index];
+		return nullptr;
+	}
+
+	const CModuleInfo* Find(const char* dependencyName)
+	{
+		for (auto& el : _dependencies)
+		{
+			if (strcmp(el.Name(), dependencyName) == 0)
+				return &el;
+		}
+
+		return nullptr;
+	}
+
+private:
+	std::vector<CModuleInfo> _dependencies;
 };
 
 #endif //__ModuleTools_INCLUDE_HPP__

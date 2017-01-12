@@ -5,6 +5,13 @@ project(CppPlug C CXX)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+# Check target architecture
+if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+    set(CppPlug_64_BIT 1)
+else()
+    set(CppPlug_64_BIT 0)
+endif()
+
 set(CppPlug_VERSION_MAJOR "0")
 set(CppPlug_VERSION_MINOR "1")
 set(CppPlug_VERSION_PATCH "0")
@@ -82,6 +89,16 @@ elseif (APPLE)
     set_target_properties(${PROJECT_NAME} PROPERTIES SOVERSION ${CppPlug_VERSION})
 endif()
 
+if(MANAGED_PLUGINS_SUPPORT)
+    if(WIN32)
+        if(CppPlug_64_BIT)
+        else()
+            add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND "${PROJECT_SOURCE_DIR}/bindings_gen/CppPlugGen/win/CppPlugGen.exe" WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}/bindings_gen/CppPlugGen/win/")
+            set(CppPlug_Bindings_Path "${PROJECT_SOURCE_DIR}/src/Bindings/CSharp/x86/")
+        endif()
+    endif()
+endif()
+
 if(BUILD_TESTS)
     add_subdirectory(tests/Calculator)
     add_subdirectory(tests/StandardCalculator)
@@ -99,11 +116,12 @@ if(CREATE_INSTALL)
     endif()
 
     install(DIRECTORY "${PROJECT_SOURCE_DIR}/src/" DESTINATION "include" PATTERN "*.cpp" EXCLUDE)
+
+    if(MANAGED_PLUGINS_SUPPORT)
+        install(DIRECTORY "${PROJECT_SOURCE_DIR}/src/bindings" DESTINATION "${CMAKE_INSTALL_PREFIX}")
+    endif()
+
     install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION "bin/"
 									LIBRARY DESTINATION "bin/"
 									ARCHIVE DESTINATION "lib/")
 endif()
-
-
-
-# -h="D:\Progetti\Git\CppPlug\src\ModuleTools.hpp" --inc="D:\Progetti\Git\CppPlug\src" -d="CppPlug_COMPILE_MANAGED_BRIDGE" --iln="CppPlug_d" --isln="CppPlug_d.dll" --ld="D:\Progetti\Builds\CppPlug\Build\CppPlug\lib" --od="D:\Progetti\Git\CppPlug\tests\ManagedCalculator" --on="CppPlug" --ub

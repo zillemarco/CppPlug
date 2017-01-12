@@ -29,10 +29,11 @@ void ManagedPlugin::CreateImpl(ModuleInfo* dependencies, int dependenciesCount, 
 			for (int i = 0; i < dependenciesCount; i++)
 				dependenciesVector.push_back(&dependencies[i]);
 		}
+		
+		CModuleDependenciesCollection dependenciesCollection(dependenciesVector);
 
 		__cpp_createPluginFunc func = (__cpp_createPluginFunc)_pluginInfos->_reserved_cppCreatePluginFunc;
-		//_pluginImpl = func(dependenciesVector, creationData);
-		_pluginImpl = func(nullptr, 0, creationData);
+		_pluginImpl = func(&dependenciesCollection, creationData);
 	}
 }
 

@@ -42,10 +42,3 @@ elseif (APPLE)
 
     set_target_properties(${PROJECT_NAME} PROPERTIES SOVERSION ${CppPlug_VERSION})
 endif()
-
-if(CREATE_INSTALL)
-    install(FILES "${PROJECT_SOURCE_DIR}/package.json" DESTINATION "${CMAKE_INSTALL_PREFIX}/bin/StandardCalculator/")
-    install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION "bin/StandardCalculator/"
-									LIBRARY DESTINATION "bin/StandardCalculator/"
-									ARCHIVE DESTINATION "lib/StandardCalculator/")
-endif()

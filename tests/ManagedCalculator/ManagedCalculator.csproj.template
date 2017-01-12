@@ -142,11 +142,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="${ManagedCalculator_Source_Path}CppPlug_d.cs" />
     <Compile Include="${ManagedCalculator_Source_Path}ManagedCalculator.cs" />
     <Compile Include="${ManagedCalculator_Source_Path}Properties/AssemblyInfo.cs" />
-    <Compile Include="${ManagedCalculator_Source_Path}Std.cs" />
     <Compile Include="${ManagedCalculator_Source_Path}Sub.cs" />
+    <Compile Include="${CppPlug_Bindings_Path}CppPlug.cs" />
+    <Compile Include="${CppPlug_Bindings_Path}Std.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)/Microsoft.CSharp.targets" />
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">

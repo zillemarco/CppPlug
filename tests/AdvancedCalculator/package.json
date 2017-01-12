@@ -4,7 +4,7 @@
     "type": "Unmanaged",
     "binaries": [
         {
-            "path": "AdvancedCalculator_d.dll",
+            "path": "AdvancedCalculator.dll",
             "os": "win",
             "arch": "x86"
         }

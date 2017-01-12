@@ -20,9 +20,3 @@ set_target_properties(${PROJECT_NAME} PROPERTIES RELEASE_POSTFIX        "")
 set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX          "")
 set_target_properties(${PROJECT_NAME} PROPERTIES MINSIZEREL_POSTFIX     "")
 set_target_properties(${PROJECT_NAME} PROPERTIES RELWITHDEBINFO_POSTFIX "")
-
-if(CREATE_INSTALL)
-    install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION "bin/"
-									LIBRARY DESTINATION "bin/"
-									ARCHIVE DESTINATION "lib/")
-endif()

@@ -11,9 +11,20 @@ namespace ManagedCalculator
 {
     public struct Sub
     {
-        public static IntPtr Create(IntPtr deps, int depsCount, IntPtr creationData)
+        CCreatedPlugin stdCalc;
+
+        Sub(CModuleDependenciesCollection deps)
         {
-            Sub plugin = new Sub();
+            CModuleInfo info = deps.Find("StandardCalculator");
+            stdCalc = info.CreatePlugin("Sum", IntPtr.Zero);
+            stdCalc.SendMessage("sayHi", IntPtr.Zero);
+        }
+
+        public static IntPtr Create(IntPtr depsCollection, IntPtr creationData)
+        {
+            CModuleDependenciesCollection deps = (CModuleDependenciesCollection)Marshal.PtrToStructure(depsCollection, typeof(CModuleDependenciesCollection));
+
+            Sub plugin = new Sub(deps);
             IntPtr pnt = Marshal.AllocHGlobal(Marshal.SizeOf(plugin));
 
             Marshal.StructureToPtr(plugin, pnt, false);

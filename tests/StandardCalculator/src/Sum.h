@@ -4,6 +4,8 @@
 #include "StandardCalculator.h"
 #include <ModuleTools.h>
 
+#include <stdio.h>
+
 class StandardCalculator_API Sum
 {
 	DECLARE_PLUGIN_NO_CREATION_DATA_NO_DEPENDENCIES(Sum);
@@ -28,6 +30,11 @@ public:
 		else if (strcmp(messageName, "getResult") == 0)
 		{
 			*((float*)messageData) = _a + _b;
+			return true;
+		}
+		else if (strcmp(messageName, "sayHi") == 0)
+		{
+			printf("Hi from standard calculator!\n");
 			return true;
 		}
 

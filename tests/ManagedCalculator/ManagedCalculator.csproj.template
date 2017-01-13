@@ -132,8 +132,17 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CppPlug.Net">
-      <HintPath>${CppPlug_Net_Bindings}/CppPlug.Net.dll</HintPath>
+    <Reference Include="CppPlug.Net" Condition="'$(Configuration)' == 'Debug'">
+      <HintPath>${ManagedCalculator_Output_Path}/bin/Debug/CppPlug.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="CppPlug.Net" Condition="'$(Configuration)' == 'Release'">
+      <HintPath>${ManagedCalculator_Output_Path}/bin/Release/CppPlug.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="CppPlug.Net" Condition="'$(Configuration)' == 'MinSizeRel'">
+      <HintPath>${ManagedCalculator_Output_Path}/bin/MinSizeRel/CppPlug.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="CppPlug.Net" Condition="'$(Configuration)' == 'RelWithDebInfo'">
+      <HintPath>${ManagedCalculator_Output_Path}/bin/RelWithDebInfo/CppPlug.Net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

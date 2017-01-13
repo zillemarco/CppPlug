@@ -34,8 +34,6 @@ add_definitions(-DSUPPORT_MANAGED)
 include_directories("${MONO_ROOT}/include/mono-2.0")
 
 set(MONO_COMPILER_DIR "${MONO_ROOT}/bin")
-set(MONO_COMPILER_PATH "${MONO_COMPILER_DIR}/xbuild.bat")
-
 endif()
 
 file(GLOB SRC "${PROJECT_SOURCE_DIR}/src/*.*")
@@ -72,11 +70,7 @@ if(MANAGED_PLUGINS_SUPPORT)
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${MONO_RUNTIME_DLL}" "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>$<$<CONFIG:RelWithDebInfo>:RelWithDebInfo>$<$<CONFIG:MinSizeRel>:MinSizeRel>")
 endif()
 
-if (WIN32)
-    # The CppPlug DLL needs a special compile-time macro and import library name
-    set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "" IMPORT_PREFIX "")
-    set_target_properties(${PROJECT_NAME} PROPERTIES IMPORT_SUFFIX "_dll.lib")
-elseif (APPLE)
+if (APPLE)
     # Append -fno-common to the compile flags to work around a bug in
     # Apple's GCC
     get_target_property(CppPlug_CFLAGS ${PROJECT_NAME} COMPILE_FLAGS)
@@ -104,8 +98,8 @@ if(MANAGED_PLUGINS_SUPPORT)
         
         if(CppPlug_64_BIT)
         else()
-            set(CppPlug_Net_Bindings "${PROJECT_SOURCE_DIR}/src/bindings/x86/win")
-            add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND "${PROJECT_SOURCE_DIR}/CppPlugGen/build/lib/CppPlugGen.exe" "${MONO_COMPILER_DIR}" WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}")
+            set(CppPlug_Net_Bindings "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/")
+            add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND "${PROJECT_SOURCE_DIR}/CppPlugGen/build/lib/CppPlugGen.exe" "${MONO_COMPILER_DIR}" "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>$<$<CONFIG:RelWithDebInfo>:RelWithDebInfo>$<$<CONFIG:MinSizeRel>:MinSizeRel>/" WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}")
         endif()
     endif()
 endif()
@@ -126,10 +120,10 @@ if(CREATE_INSTALL)
         install(FILES "${MONO_RUNTIME_DLL}" DESTINATION "${CMAKE_INSTALL_PREFIX}/bin")
     endif()
 
-    install(DIRECTORY "${PROJECT_SOURCE_DIR}/src/" DESTINATION "include" PATTERN "*.cpp" EXCLUDE)
+    install(DIRECTORY "${PROJECT_SOURCE_DIR}/src/" DESTINATION "include" PATTERN "*.cpp" EXCLUDE PATTERN "dotNet" EXCLUDE)
 
     if(MANAGED_PLUGINS_SUPPORT)
-        install(DIRECTORY "${PROJECT_SOURCE_DIR}/src/bindings" DESTINATION "${CMAKE_INSTALL_PREFIX}")
+        install(FILES "${CMAKE_BINARY_DIR}/Build/CppPlug/bin/$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>$<$<CONFIG:RelWithDebInfo>:RelWithDebInfo>$<$<CONFIG:MinSizeRel>:MinSizeRel>/CppPlug.Net.dll" DESTINATION "${CMAKE_INSTALL_PREFIX}/bin")
     endif()
 
     install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION "bin/"

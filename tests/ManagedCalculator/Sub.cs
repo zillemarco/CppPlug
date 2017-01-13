@@ -23,24 +23,18 @@ namespace ManagedCalculator
         public static IntPtr Create(IntPtr depsCollection, IntPtr creationData)
         {
             CModuleDependenciesCollection deps = (CModuleDependenciesCollection)Marshal.PtrToStructure(depsCollection, typeof(CModuleDependenciesCollection));
-
-            Sub plugin = new Sub(deps);
-            IntPtr pnt = Marshal.AllocHGlobal(Marshal.SizeOf(plugin));
-
-            Marshal.StructureToPtr(plugin, pnt, false);
-
-            return pnt;
+            return ModuleTools.PluginToPtr<Sub>(new Sub(deps));
         }
 
         public static void Destroy(IntPtr plugin)
         {
             Console.WriteLine("Free the managed plugin");
-            Marshal.FreeHGlobal(plugin);
+            ModuleTools.FreePlugin(plugin);
         }
 
         public static bool OnMessage(IntPtr plugin, string messageName, IntPtr messageData)
         {
-            Sub p = (Sub)Marshal.PtrToStructure(plugin, typeof(Sub));
+            Sub p = ModuleTools.PtrToPlugin<Sub>(plugin);
             return p.OnMessage(messageName, messageData);
         }
 
